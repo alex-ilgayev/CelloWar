@@ -8,11 +8,10 @@
     tools:context="com.alar.cellowar.client.MainActivity"
     android:orientation="vertical">
 
-    <TextView
+    <com.alar.cellowar.client.GameView
         android:id="@+id/vGameView"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:background="@color/blue_dark"/>
+        android:layout_height="500dp"/>
     <TextView
         android:id="@+id/tvGameInfo"
         android:layout_width="match_parent"

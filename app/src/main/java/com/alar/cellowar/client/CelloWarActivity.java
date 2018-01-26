@@ -1,6 +1,14 @@
 package com.alar.cellowar.client;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -10,12 +18,11 @@ import com.alar.cellowar.R;
 import com.alar.cellowar.client.controller.Settings;
 import com.alar.cellowar.shared.datatypes.Antenna;
 import com.alar.cellowar.shared.datatypes.CelloWarGameData;
-import com.alar.cellowar.shared.datatypes.Client;
 import com.alar.cellowar.shared.datatypes.ConnectionStatus;
 import com.alar.cellowar.shared.datatypes.ICallback;
+import com.alar.cellowar.shared.datatypes.Obstacle;
 import com.alar.cellowar.shared.datatypes.Session;
 import com.alar.cellowar.shared.messaging.IMessage;
-import com.alar.cellowar.shared.messaging.MessageRequestJoinPool;
 import com.alar.cellowar.shared.messaging.MessageRequestSetMove;
 import com.alar.cellowar.shared.messaging.MessageResponseSession;
 
@@ -28,7 +35,7 @@ import java.util.UUID;
 
 public class CelloWarActivity extends BaseActivity {
 
-    public static final String INTENT_TAG_SUDOKU_GAME_DATA = "gameData";
+    public static final String INTENT_TAG_CELLOWAR_GAME_DATA = "gameData";
     public static final String INTENT_TAG_SESSION_ID_TO_JOIN = "sessionToJoin";
     public static final String INTENT_TAG_PLAYER_NUMBER = "playerNumber";
 
@@ -36,6 +43,7 @@ public class CelloWarActivity extends BaseActivity {
     private Button _btnFinishMove;
     private TextView _tvGameInfo;
     private com.wang.avi.AVLoadingIndicatorView _pbWaiting;
+    private GameView _gameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +58,7 @@ public class CelloWarActivity extends BaseActivity {
         }
 
 
-        Serializable gameDataSerializable = getIntent().getSerializableExtra(INTENT_TAG_SUDOKU_GAME_DATA);
+        Serializable gameDataSerializable = getIntent().getSerializableExtra(INTENT_TAG_CELLOWAR_GAME_DATA);
         Serializable sessionIdToJoin = getIntent().getSerializableExtra(INTENT_TAG_SESSION_ID_TO_JOIN);
         Serializable playerNumber = getIntent().getSerializableExtra(INTENT_TAG_PLAYER_NUMBER);
 
@@ -64,6 +72,7 @@ public class CelloWarActivity extends BaseActivity {
         _btnFinishMove = findViewById(R.id.btnFinishMove);
         _tvGameInfo = findViewById(R.id.tvGameInfo);
         _pbWaiting = findViewById(R.id.pbWaiting);
+        _gameView = findViewById(R.id.vGameView);
 
         _btnFinishMove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,9 +91,11 @@ public class CelloWarActivity extends BaseActivity {
 
         postInfo(getString(R.string.info_place_ant));
 
-        //TODO shouldn't be, for debugging.
-        _gameData.ants.add(new Antenna(10, 5, 6, Antenna.AntennaType.TRANSMISSION));
-        _gameData.ants.add(new Antenna(1, 2, 3, Antenna.AntennaType.ELECTONIC_WARFARE));
+//        //TODO shouldn't be, for debugging.
+//        _gameData.ants.add(new Antenna(10, 5, 6, Antenna.AntennaType.TRANSMISSION));
+//        _gameData.ants.add(new Antenna(1, 2, 3, Antenna.AntennaType.ELECTONIC_WARFARE));
+
+        _gameView.setMap(_gameData);
     }
 
     public void postInfo(String text) {
@@ -143,4 +154,6 @@ public class CelloWarActivity extends BaseActivity {
             }
         }
     }
+
+
 }

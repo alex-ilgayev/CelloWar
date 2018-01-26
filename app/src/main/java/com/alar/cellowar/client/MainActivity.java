@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -190,7 +189,7 @@ public class MainActivity  extends BaseActivity{
                     if(sessionMessage.activeSession.getGameData() != null) {
 //                         starting game.
                         Intent i = new Intent(MainActivity.this, CelloWarActivity.class);
-                        i.putExtra(CelloWarActivity.INTENT_TAG_SUDOKU_GAME_DATA,
+                        i.putExtra(CelloWarActivity.INTENT_TAG_CELLOWAR_GAME_DATA,
                                 sessionMessage.activeSession.getGameData());
                         i.putExtra(CelloWarActivity.INTENT_TAG_SESSION_ID_TO_JOIN,
                                 sessionMessage.activeSession.getSessionId());
