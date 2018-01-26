@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+
+    <color name="colorPrimary">#f68141</color>
+    <color name="colorPrimaryDark">#fc5403</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="orange_light">#f68141</color>
+    <color name="orange_dark">#fc5403</color>
+    <color name="orange_ripple">#f68141</color>
+
+    <color name="yellow_light">#FFB805</color>
+    <color name="yellow_dark">#F2AB00</color>
+    <color name="yellow_ripple">#D99200</color>
+
+    <color name="green_light">#43A047</color>
+    <color name="green_dark">#2E7D32</color>
+    <color name="green_ripple">#1B5E20</color>
+
+    <color name="blue_light">#1565C0</color>
+    <color name="blue_dark">#2272CD</color>
+    <color name="blue_ripple">#62B2FF</color>
+
+    <color name="red_light">#F50057</color>
+    <color name="red_dark">#E8004A</color>
+    <color name="red_ripple">#C20024</color>
+
+    <color name="normal">#000</color>
+    <color name="wrong">#F00</color>
+    <color name="right">#0F0</color>
+    <color name="block_text_normal">#000000</color>
+    <color name="gridlist_divider">#BBB</color>
+    <color name="block_bg">#939393</color>
+</resources>

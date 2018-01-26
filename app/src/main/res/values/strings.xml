@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CelloWar</string>
+    <string name="action_settings">Settings</string>
+    <string name="hint_send_sms">Send Text Message</string>
+
+    <string name="user_search_default">בצע חיפוש לאתר משתמשים</string>
+    <string name="user_search_searching">מחפש ...</string>
+    <string name="user_search_no_users">אין משתמשים מחוברים</string>
+
+    <string name="main_user_title">משתמשים מחוברים</string>
+</resources>

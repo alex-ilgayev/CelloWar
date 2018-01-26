@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.alar.cellowar.client.MainActivity"
+    android:background="@drawable/bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_above="@+id/fabSearch"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/shape_users_bg">
+
+            <TextView
+                android:id="@+id/tvUsersOnlineTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/main_user_title"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/shape_users_bg_header"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvUsersOnlineTitle"
+                android:id="@+id/lvUsers"
+                android:textSize="20dp"
+                android:scrollbars="vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tvUsers"
+                android:textSize="25dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:layout_below="@id/tvUsersOnlineTitle"
+                android:text="@string/user_search_default"/>
+        </RelativeLayout>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/fab_search"
+            fab:menu_labels_style="@style/MenuLabelsStyle"
+            fab:menu_colorNormal="@color/orange_light"
+            fab:menu_colorPressed="@color/orange_dark"
+            fab:menu_colorRipple="@color/orange_ripple"
+            fab:menu_shadowColor="#444"
+            android:onClick="onClickRefreshUsers"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
