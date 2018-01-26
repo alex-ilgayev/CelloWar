@@ -8,4 +8,8 @@
     <string name="user_search_no_users">אין משתמשים מחוברים</string>
 
     <string name="main_user_title">משתמשים מחוברים</string>
+
+    <string name="info_place_ant">מקם את האנטנות בצורה מיטבית</string>
+    <string name="info_wait">חכה עד שיריבך יסיים את תורו</string>
+    <string name="info_finish">המשחק הסתיים, המנצח הוא: </string>
 </resources>

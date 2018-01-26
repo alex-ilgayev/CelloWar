@@ -1,6 +1,7 @@
 package com.alar.cellowar.shared.datatypes;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.UUID;
 
@@ -12,22 +13,27 @@ public class Session implements Serializable{
 
     private UUID _sessionId;
     private LinkedList<Client> _clientList;
+
+    // a map from client ID to the order number (1,2,3 ..)
+    private HashMap<Integer, Integer> _clientOrder;
+
     //TODO MAP
     CelloWarGameData _gameData;
 
     public Session(UUID sessionId, LinkedList<Client> clientList
-            , CelloWarGameData gameData){
+            , CelloWarGameData gameData, HashMap<Integer, Integer> clientOrder){
         this._sessionId = sessionId;
         this._clientList = clientList;
         this._gameData = gameData;
+        this._clientOrder = clientOrder;
     }
 
-    public Session(UUID sessionId, CelloWarGameData gameData){
-        this(sessionId, new LinkedList<Client>(), gameData);
+    public Session(UUID sessionId, CelloWarGameData gameData, HashMap<Integer, Integer> clientOrder){
+        this(sessionId, new LinkedList<Client>(), gameData, clientOrder);
     }
 
-    public Session(CelloWarGameData gameData){
-        this(UUID.randomUUID(), gameData);
+    public Session(CelloWarGameData gameData, HashMap<Integer, Integer> clientOrder){
+        this(UUID.randomUUID(), gameData, clientOrder);
     }
 
     public UUID getSessionId(){
@@ -40,6 +46,14 @@ public class Session implements Serializable{
 
     public CelloWarGameData getGameData() {
         return _gameData;
+    }
+
+    public void setClientOrder(HashMap<Integer, Integer> clientOrder) {
+        this._clientOrder = clientOrder;
+    }
+
+    public HashMap<Integer, Integer> getClientOrder() {
+        return this._clientOrder;
     }
 
     @Override

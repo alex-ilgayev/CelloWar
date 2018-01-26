@@ -17,8 +17,7 @@ public class CelloWarGameData implements Serializable{
         SHOW_RESULT       // Showing mutual results.
     }
 
-    public List<Antenna> p1;
-    public List<Antenna> p2;
+    public List<Antenna> ants;
 
     public final List<Obstacle> obst;
 
@@ -26,8 +25,7 @@ public class CelloWarGameData implements Serializable{
 
 
     public CelloWarGameData() {
-        p1 = new ArrayList<Antenna>();
-        p2 = new ArrayList<Antenna>();
+        ants = new ArrayList<Antenna>();
         obst = new ArrayList<Obstacle>();
         state = State.ANT_PLACEMENT;
     }

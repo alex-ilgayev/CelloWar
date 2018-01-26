@@ -188,13 +188,14 @@ public class MainActivity  extends BaseActivity{
                         break;
                     MessageResponseSession sessionMessage = (MessageResponseSession)message;
                     if(sessionMessage.activeSession.getGameData() != null) {
-                        // TODO
 //                         starting game.
                         Intent i = new Intent(MainActivity.this, CelloWarActivity.class);
                         i.putExtra(CelloWarActivity.INTENT_TAG_SUDOKU_GAME_DATA,
                                 sessionMessage.activeSession.getGameData());
                         i.putExtra(CelloWarActivity.INTENT_TAG_SESSION_ID_TO_JOIN,
                                 sessionMessage.activeSession.getSessionId());
+                        i.putExtra(CelloWarActivity.INTENT_TAG_PLAYER_NUMBER,
+                                sessionMessage.activeSession.getClientOrder().get(_client.getId()));
                         setLoadingFab(false);
                         startActivity(i);
                     }

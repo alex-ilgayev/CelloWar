@@ -4,6 +4,7 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.alar.cellowar.client.MainActivity"
     android:orientation="vertical">
 
@@ -12,48 +13,37 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:background="@color/blue_dark"/>
-    <Button
-        android:id="@+id/btnFinishMove"
+    <TextView
+        android:id="@+id/tvGameInfo"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:text="סיים את התור"
-        android:layout_below="@+id/vGameView"
-        android:layout_margin="10dp"
-        />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:layout_above="@+id/rlFinishMove"/>
+    <RelativeLayout
+        android:id="@+id/rlFinishMove"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp">
+        <Button
+            android:id="@+id/btnFinishMove"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="סיים את התור"
+            />
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/pbWaiting"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:indicatorName="BallPulseIndicator"
+            android:layout_marginLeft="80dp"
+            style="@style/AVLoadingIndicatorView.Large"
+            />
+    </RelativeLayout>
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="400dp">-->
-
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="30dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:background="@color/blue_dark">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent" />-->
-        <!--</RelativeLayout>-->
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="30dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_marginLeft="10dp">-->
-
-
-            <!--<Button-->
-                <!--android:id="@+id/btnJoinPool"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="70dp"-->
-                <!--android:text="חפש משחק !"-->
-                <!--android:layout_marginTop="15dp"-->
-                <!--/>-->
-        <!--</RelativeLayout>-->
-    <!--</RelativeLayout>-->
 
 
 </RelativeLayout>

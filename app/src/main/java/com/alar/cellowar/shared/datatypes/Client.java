@@ -15,17 +15,21 @@ public class Client implements Serializable {
     private int _id;
     private String _name;
     private UUID _currSessionId;
+    // if not in active game, then equals null.
+    private Integer _playerNumber;
 
     public Client(int id, String name , UUID currSessionId) {
         this._id = id;
         this._name = name;
         this._currSessionId = currSessionId;
+        this._playerNumber = null;
     }
 
     public Client(int id, String name) {
         this._id = id;
         this._name = name;
         this._currSessionId = null;
+        this._playerNumber = null;
     }
 
     public void setId(int id) {
@@ -50,6 +54,14 @@ public class Client implements Serializable {
 
     public UUID getCurrSessionId(){
         return _currSessionId;
+    }
+
+    public void setPlayerNumber(Integer playerNum) {
+        this._playerNumber = playerNum;
+    }
+
+    public Integer getPlayerNumber() {
+        return this._playerNumber;
     }
 
     @Override
