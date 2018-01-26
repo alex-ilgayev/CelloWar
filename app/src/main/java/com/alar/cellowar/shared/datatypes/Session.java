@@ -13,20 +13,20 @@ public class Session implements Serializable{
     private UUID _sessionId;
     private LinkedList<Client> _clientList;
     //TODO MAP
-    GameData _gameData;
+    CelloWarGameData _gameData;
 
     public Session(UUID sessionId, LinkedList<Client> clientList
-            , GameData gameData){
+            , CelloWarGameData gameData){
         this._sessionId = sessionId;
         this._clientList = clientList;
         this._gameData = gameData;
     }
 
-    public Session(UUID sessionId, GameData gameData){
+    public Session(UUID sessionId, CelloWarGameData gameData){
         this(sessionId, new LinkedList<Client>(), gameData);
     }
 
-    public Session(GameData gameData){
+    public Session(CelloWarGameData gameData){
         this(UUID.randomUUID(), gameData);
     }
 
@@ -38,7 +38,7 @@ public class Session implements Serializable{
         return _clientList;
     }
 
-    public GameData getGameData() {
+    public CelloWarGameData getGameData() {
         return _gameData;
     }
 

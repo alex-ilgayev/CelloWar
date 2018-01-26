@@ -6,19 +6,18 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * Created by Alex on 4/28/2015.
+ * Created by alexi on 1/26/2018.
  */
-public class MessageRequestJoin implements IMessage, Serializable{
+
+public class MessageRequestJoinPool implements IMessage, Serializable {
     private static final long serialVersionUID = 1L;
 
     public Client client;
     public UUID id;
 
-    public UUID sessionIdToJoin;
-
     @Override
     public MessageType getMessageType() {
-        return MessageType.REQUEST_JOIN;
+        return MessageType.REQUEST_JOIN_POOL;
     }
 
     @Override

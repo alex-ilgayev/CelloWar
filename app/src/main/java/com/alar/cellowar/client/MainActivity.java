@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,18 +22,13 @@ import com.alar.cellowar.shared.datatypes.ICallback;
 import com.alar.cellowar.shared.messaging.IMessage;
 import com.alar.cellowar.shared.messaging.MessageInnerConnectionStatus;
 import com.alar.cellowar.shared.messaging.MessageRequestAvailableClients;
-import com.alar.cellowar.shared.messaging.MessageRequestJoin;
-import com.alar.cellowar.shared.messaging.MessageRequestNewGame;
+import com.alar.cellowar.shared.messaging.MessageRequestJoinPool;
 import com.alar.cellowar.shared.messaging.MessageResponseClientList;
 import com.alar.cellowar.shared.messaging.MessageResponseSession;
 import com.github.clans.fab.FloatingActionButton;
 
 import java.util.LinkedList;
 import java.util.UUID;
-
-import static com.alar.cellowar.shared.messaging.MessageType.INNER_CONNECTION_STATUS;
-import static com.alar.cellowar.shared.messaging.MessageType.RESPONSE_CLIENT_LIST;
-import static com.alar.cellowar.shared.messaging.MessageType.RESPONSE_SESSION;
 
 /**
  * Created by alexi on 1/26/2018.
@@ -44,6 +39,8 @@ public class MainActivity  extends BaseActivity{
     private final String CROSSWORD_TITLE = "Crossword";
 
     private FloatingActionButton _fabSearch;
+    private Button _btnJoinPool;
+
     private TextView _tvUsers = null;
     private ListView _lvUsers = null;
     private TextView _tvUsersOnlineTitle = null;
@@ -52,6 +49,7 @@ public class MainActivity  extends BaseActivity{
     private UUID _waitingForClientSearchResponse = null;
     private UUID _waitingForJoinGameResponse = null;
     private UUID _waitingForNewGameResponse = null;
+    private UUID _waitingForJoinPoolResponse = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,25 +76,26 @@ public class MainActivity  extends BaseActivity{
         _lvUsers = (ListView) findViewById(R.id.lvUsers);
         _adapter = new ClientsPlayingAdapter(this, _usersToJoin);
         _lvUsers.setAdapter(_adapter);
-        _lvUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        _client.setCurrSessionId(null);
+
+        _fabSearch = (FloatingActionButton) findViewById(R.id.fabSearch);
+        _btnJoinPool = (Button) findViewById(R.id.btnJoinPool);
+
+        _btnJoinPool.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onClick(View view) {
                 setLoadingFab(true);
                 if(Settings.getInstance().getConnectivityState() == ConnectionStatus.CONNECTION_TIMED_OUT) {
                     _networkManager.resetServiceConnection();
                 }
 
-                _waitingForJoinGameResponse = UUID.randomUUID();
-                MessageRequestJoin msg = new MessageRequestJoin();
+                _waitingForJoinPoolResponse = UUID.randomUUID();
+                MessageRequestJoinPool msg = new MessageRequestJoinPool();
                 msg.client = _client;
-                msg.id = _waitingForJoinGameResponse;
-                msg.sessionIdToJoin = _usersToJoin.get(position).getCurrSessionId();
+                msg.id = _waitingForJoinPoolResponse;
                 _networkManager.sendMessage(msg);
             }
         });
-        _client.setCurrSessionId(null);
-
-        _fabSearch = (FloatingActionButton) findViewById(R.id.fabSearch);
     }
 
     @Override
@@ -113,19 +112,6 @@ public class MainActivity  extends BaseActivity{
             _fabSearch.setShowProgressBackground(false);
             _fabSearch.setIndeterminate(false);
         }
-    }
-
-    public void onClickStartSudokuGame(View v){
-        setLoadingFab(true);
-        if(Settings.getInstance().getConnectivityState() == ConnectionStatus.CONNECTION_TIMED_OUT) {
-            _networkManager.resetServiceConnection();
-        }
-
-        _waitingForNewGameResponse = UUID.randomUUID();
-        MessageRequestNewGame msg = new MessageRequestNewGame();
-        msg.client = _client;
-        msg.id = _waitingForNewGameResponse;
-        _networkManager.sendMessage(msg);
     }
 
     public void onClickRefreshUsers(View view) {
@@ -197,19 +183,20 @@ public class MainActivity  extends BaseActivity{
                 case RESPONSE_SESSION:
                     if(message.getId() == null ||
                             (!message.getId().equals(_waitingForNewGameResponse) &&
-                                    !message.getId().equals(_waitingForJoinGameResponse)))
+                                    !message.getId().equals(_waitingForJoinGameResponse) &&
+                                    !message.getId().equals(_waitingForJoinPoolResponse)))
                         break;
                     MessageResponseSession sessionMessage = (MessageResponseSession)message;
                     if(sessionMessage.activeSession.getGameData() != null) {
                         // TODO
-                        // starting game.
-//                        Intent i = new Intent(MainActivity.this, SudokuGameActivity.class);
-//                        i.putExtra(SudokuGameActivity.INTENT_TAG_SUDOKU_GAME_DATA,
-//                                sessionMessage.activeSession.getGameData());
-//                        i.putExtra(SudokuGameActivity.INTENT_TAG_SESSION_ID_TO_JOIN,
-//                                sessionMessage.activeSession.getSessionId());
-//                        setLoadingFab(false);
-//                        startActivity(i);
+//                         starting game.
+                        Intent i = new Intent(MainActivity.this, CelloWarActivity.class);
+                        i.putExtra(CelloWarActivity.INTENT_TAG_SUDOKU_GAME_DATA,
+                                sessionMessage.activeSession.getGameData());
+                        i.putExtra(CelloWarActivity.INTENT_TAG_SESSION_ID_TO_JOIN,
+                                sessionMessage.activeSession.getSessionId());
+                        setLoadingFab(false);
+                        startActivity(i);
                     }
                     break;
                 case INNER_CONNECTION_STATUS:

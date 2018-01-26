@@ -13,6 +13,8 @@ import java.io.Serializable;
  * <b>date:</b> timestamp of the message
  */
 public class Packet implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     @Expose
     @SerializedName("Payload")
     public String payload;

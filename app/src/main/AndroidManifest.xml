@@ -33,5 +33,9 @@
             android:name="com.alar.cellowar.client.BaseActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.alar.cellowar.client.CelloWarActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 </manifest>
