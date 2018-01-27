@@ -17,8 +17,8 @@ public class CelloWarGameData implements Serializable{
         SHOW_RESULT       // Showing mutual results.
     }
 
-    public static float BASE_H = 3.50f;
-    public static float GOAL_RADIUS = 8.0f;
+    public static float BASE_H = 50.00f;
+    public static float GOAL_RADIUS = 50.0f;
 
     public List<Antenna> ants;
     public List<Obstacle> obst;
@@ -31,8 +31,8 @@ public class CelloWarGameData implements Serializable{
         ants = new ArrayList<Antenna>();
         obst = new ArrayList<Obstacle>();
         state = State.ANT_PLACEMENT;
-        viewW = 100.0f;
-        viewH = 100.0f;
+        viewW = 1080.0f;
+        viewH = 1500.0f;
     }
 
     public void setWH(float w, float h) {
@@ -49,7 +49,7 @@ public class CelloWarGameData implements Serializable{
     }
 
     public void UpdateViewSize(float newW, float newH) {
-        for(Obstacle o : obst) {
+        /*for(Obstacle o : obst) {
             o._bottom = fixY(o._bottom, newH);
             o._left = fixX(o._left, newW);
             o._top = fixY(o._top,newH);
@@ -75,9 +75,9 @@ public class CelloWarGameData implements Serializable{
         GOAL_RADIUS = fixX(GOAL_RADIUS, newW); // IMPORTANT - Radius is fixed according to width.
 
         viewH = newH;
-        viewW = newW;
+        viewW = newW;*/
 
-        CalcRouting(viewW, viewH); // Recalculate routing
+        CalcRouting(newW, newH); // Recalculate routing
     }
 
 
