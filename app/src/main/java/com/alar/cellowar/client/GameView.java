@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -31,9 +32,9 @@ class GameView extends View {
     float original_y;
     float dx;
     float dy;
-
     Paint p;
-
+    //BitmapShader bmpShader;
+    //Bitmap patternBMP;
 
     Drawable antennaIcon = getResources().getDrawable(R.drawable.ant);
 
@@ -41,23 +42,33 @@ class GameView extends View {
         super(context, attrs);
 
         p = new Paint();
+
+        //patternBMP = BitmapFactory.decodeResource(getResources(), R.drawable.);
+        //bmpShader = new BitmapShader(patternBMP,
+        //        Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
         _m = new CelloWarGameData();
         _my_base_id = 1;
 
-        _m.CalcRouting(this.getWidth());
+        _m.CalcRouting(this.getWidth(), this.getHeight());
+
     }
 
+    // TODO: !
     public GameView (Context context, CelloWarGameData m, int my_base_id) {
         super(context);
         p = new Paint();
         _m = m;
         _my_base_id = my_base_id;
 
-        _m.CalcRouting(this.getWidth());
+
+
+        _m.CalcRouting(this.getWidth(), this.getHeight());
     }
 
     public void setMap(CelloWarGameData m) {
         _m = m;
+        _m.CalcRouting(this.getWidth(), this.getHeight());
+        invalidate();
     }
 
     public CelloWarGameData getMap() {
@@ -65,7 +76,7 @@ class GameView extends View {
     }
 
     protected void onDraw(Canvas canvas) {
-        canvas.drawRGB(66, 0, 66);
+        canvas.drawRGB(60, 80, 60);
         p.reset();
 
         // Draw Bases
@@ -99,7 +110,7 @@ class GameView extends View {
         // Draw Obstacles
         //
         p.setStyle(Paint.Style.FILL);
-        p.setColor(Color.GREEN);
+        p.setColor(Color.rgb(40,60,40));
         for (Obstacle o : _m.obst) {
             canvas.drawRect(o._left, o._top, o._right, o._bottom, p);
         }
@@ -129,19 +140,36 @@ class GameView extends View {
 
             if (a._type == Antenna.AntennaType.TRANSMISSION) {
 
-                if(a.routing.routed_bases_top.contains(1) ) {
+               boolean blue_route =
+                        a.routing.routed_bases_top.contains(1) ||
+                        a.routing.routed_bases_bottom.contains(1);
+
+                boolean red_route =
+                        a.routing.routed_bases_top.contains(2) ||
+                        a.routing.routed_bases_bottom.contains(2);
+
+                if(blue_route && red_route) {
+                    p.setColor(Color.rgb(150, 0, 150));
+                    antennaIcon.setColorFilter(Color.rgb(150, 0, 150), PorterDuff.Mode.MULTIPLY);
+                } else if (blue_route) {
                     p.setColor(Color.BLUE);
-                } else if (a.routing.routed_bases_top.contains(2) ) {
+                    antennaIcon.setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
+                } else if (red_route ) {
                     p.setColor(Color.RED);
+                    antennaIcon.setColorFilter( Color.RED, PorterDuff.Mode.MULTIPLY );
                 } else {
                     p.setColor(Color.LTGRAY);
+                    antennaIcon.setColorFilter( Color.WHITE, PorterDuff.Mode.MULTIPLY );
                 }
 
+                antennaIcon.draw(canvas);
                 p.setAlpha(50);
                 canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, p);
             } else if (a._type == Antenna.AntennaType.ELECTONIC_WARFARE) {
-                p.setStyle(Paint.Style.FILL);
+                antennaIcon.setColorFilter( Color.WHITE, PorterDuff.Mode.MULTIPLY );
+                antennaIcon.draw(canvas);
 
+                p.setStyle(Paint.Style.FILL);
                 //PorterDuff.Mode mode = PorterDuff.Mode.DST_OUT;
                 //p.setXfermode(new PorterDuffXfermode((mode)));
 
@@ -171,8 +199,9 @@ class GameView extends View {
                 case MotionEvent.ACTION_DOWN:
 
                     for (Antenna a : _m.ants) {
-                        Rect r = a.getRect();
-                        if (r.contains((int) event.getX(), (int) event.getY())) {
+                        //Rect r = a.getRect();
+                        //if (r.contains((int) event.getX(), (int) event.getY())) {
+                         if(a.isInsideHalo(event.getX(), event.getY())) {
                             original_x = event.getX();
                             original_y = event.getY();
                             dragging = a;
@@ -205,7 +234,7 @@ class GameView extends View {
                             dragging._x = dragging._x + dx;
                             dragging._y = dragging._y + dy;
 
-                            _m.CalcRouting(this.getWidth());
+                            _m.CalcRouting(this.getWidth(), this.getHeight());
                         }
                     }
                     dx = 0.0f;

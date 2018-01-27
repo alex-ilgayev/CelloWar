@@ -19,7 +19,7 @@ public class Settings {
 //    public static final String ROOT_URL = "https://t-monument-94020.appspot.com/_ah/api/";
 //    public static final String ROOT_URL = "http://10.0.2.2:8080/_ah/api/";
     public static final String ROOT_URL = "http://10.0.2.2:8080/";
-//    public static final String ROOT_URL = "http://default-environment.xqr8pc9ect.eu-central-1.elasticbeanstalk.com/api/";
+//    public static final String ROOT_URL = "http://cellawar-env.eu-central-1.elasticbeanstalk.com/";
 
     public static final int POLL_TIMESTAMP = 1000;
     public static final int DISCONNECTION_TIMESTAMP = 3000;

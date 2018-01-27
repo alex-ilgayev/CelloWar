@@ -49,6 +49,10 @@ public class Antenna implements Serializable{
         routing = new AntennaRouting();
     }
 
+    public boolean isInsideHalo(float x, float y) {
+        return Math.sqrt(Math.pow(x - this._x, 2.0) + Math.pow(y - this._y, 2.0)) < this._radius;
+    }
+
     public Rect getRect() {
         return getRect(0.0f,0.0f);
     }

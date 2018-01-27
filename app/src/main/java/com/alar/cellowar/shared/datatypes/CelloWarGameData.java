@@ -32,7 +32,7 @@ public class CelloWarGameData implements Serializable{
     }
 
     // TODO: EW
-    public void CalcRouting(float width) {
+    public void CalcRouting(float width, float height) {
         // First clear
         for (Antenna a : ants) {
             a.routing.routed_antennas.clear();
@@ -41,25 +41,29 @@ public class CelloWarGameData implements Serializable{
         }
 
         // Blue base - top left, bottom right
-        CalcSingleBaseRouting( true, 0.0f, width/2.0f,1);
-        CalcSingleBaseRouting( false, width/2.0f, width, 1);
+        CalcSingleBaseRouting( true, 0.0f, width/2.0f, height, 1);
+        CalcSingleBaseRouting( false, width/2.0f, width, height, 1);
         // red base
-        CalcSingleBaseRouting( true, width/2.0f, width, 2);
-        CalcSingleBaseRouting( false, 0.0f, width/2.0f, 2);
+        CalcSingleBaseRouting( true, width/2.0f, width, height,2);
+        CalcSingleBaseRouting( false, 0.0f, width/2.0f, height, 2);
     }
 
-    public void CalcSingleBaseRouting(boolean is_top, float left, float right, int base_id){
+    public void CalcSingleBaseRouting(boolean is_top, float left, float right, float height, int base_id){
         for (Antenna a : ants) {
             if(is_top) {
                 if (a._y - a._radius < BASE_H) {
-                    if (a._x > left && a._x < right) {
+                    if ((a._x > left && a._x < right) ||
+                            a.isInsideHalo(right , BASE_H) ||
+                            a.isInsideHalo(left , BASE_H)) {
                         a.routing.routed_bases_top.add(base_id);
                     }
                 }
             }
             else /*(is_bottom)*/ {
-                if (a._y + a._radius > BASE_H) {
-                    if (a._x > left && a._x < right) {
+                if (a._y + a._radius > height- BASE_H) {
+                    if ((a._x > left && a._x < right) ||
+                            a.isInsideHalo(right , height- BASE_H) ||
+                            a.isInsideHalo(left , height - BASE_H)) {
                         a.routing.routed_bases_bottom.add(base_id);
                     }
                 }
