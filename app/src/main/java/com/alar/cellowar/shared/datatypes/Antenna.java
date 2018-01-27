@@ -34,12 +34,14 @@ public class Antenna implements Serializable{
         public HashSet<Antenna> routed_antennas;
         public HashSet<Integer> routed_bases_top;
         public HashSet<Integer> routed_bases_bottom;
+        public boolean routed_goal;
         public boolean isSpoofed;
 
         AntennaRouting() {
             routed_antennas = new HashSet<Antenna>();
             routed_bases_bottom = new HashSet<Integer>();
             routed_bases_top = new HashSet<Integer>();
+            routed_goal = false;
             isSpoofed = false;
         }
     }

@@ -19,6 +19,8 @@ public class CelloWarGameData implements Serializable{
 
     public static final float BASE_H = 50.0f;
 
+    public static final float GOAL_RADIUS = 50.0f;
+
     public List<Antenna> ants;
 
     public List<Obstacle> obst;
@@ -31,14 +33,13 @@ public class CelloWarGameData implements Serializable{
         state = State.ANT_PLACEMENT;
     }
 
-    // TODO: EW
-
     public void CalcRouting(float width, float height) {
         // First clear
         for (Antenna a : ants) {
             a.routing.routed_antennas.clear();
             a.routing.routed_bases_top.clear();
             a.routing.routed_bases_bottom.clear();
+            a.routing.routed_goal = false;
             a.routing.isSpoofed = false;
         }
 
@@ -53,12 +54,14 @@ public class CelloWarGameData implements Serializable{
         CalcSingleBaseRouting( true, width/2.0f, width, height,2);
         CalcSingleBaseRouting( false, 0.0f, width/2.0f, height, 2);
 
+        CalcGoalRouting(width /2.0f, height / 2.0f);
+
         // Now calculate the rest of the antennas
         CalcTransitiveRouting();
 
     }
 
-    public void CalcSpoofing() {
+    private void CalcSpoofing() {
         for(Antenna a : ants) {
             if (a._type == Antenna.AntennaType.TRANSMISSION) {
                 for(Antenna b : ants) {
@@ -72,7 +75,22 @@ public class CelloWarGameData implements Serializable{
         }
     }
 
-    public void CalcSingleBaseRouting(boolean is_top, float left, float right, float height, int base_id){
+    private void CalcGoalRouting(float goal_x, float goal_y) {
+        for (Antenna a : ants) {
+            // Ignore spoofed antennas
+            if (a.routing.isSpoofed) {
+                continue;
+            }
+
+            if (Math.pow(a._x - goal_x, 2.0) + Math.pow(a._y - goal_y, 2.0) <
+                    Math.pow(a._radius+GOAL_RADIUS, 2.0))
+            {
+                a.routing.routed_goal = true;
+            }
+        }
+    }
+
+    private void CalcSingleBaseRouting(boolean is_top, float left, float right, float height, int base_id){
         for (Antenna a : ants) {
             // Ignore spoofed antennas
             if (a.routing.isSpoofed) {
@@ -116,6 +134,10 @@ public class CelloWarGameData implements Serializable{
                                 b.routing.routed_bases_top.addAll(a.routing.routed_bases_top);
                                 a.routing.routed_bases_bottom.addAll(b.routing.routed_bases_bottom);
                                 b.routing.routed_bases_bottom.addAll(a.routing.routed_bases_bottom);
+                                if (a.routing.routed_goal || b.routing.routed_goal) {
+                                    a.routing.routed_goal = true;
+                                    b.routing.routed_goal = true;
+                                }
                             }*/
 
                             // a and b halos' must touch
@@ -126,6 +148,10 @@ public class CelloWarGameData implements Serializable{
                                 b.routing.routed_bases_top.addAll(a.routing.routed_bases_top);
                                 a.routing.routed_bases_bottom.addAll(b.routing.routed_bases_bottom);
                                 b.routing.routed_bases_bottom.addAll(a.routing.routed_bases_bottom);
+                                if (a.routing.routed_goal || b.routing.routed_goal) {
+                                    a.routing.routed_goal = true;
+                                    b.routing.routed_goal = true;
+                                }
                             }
                         }
                     }

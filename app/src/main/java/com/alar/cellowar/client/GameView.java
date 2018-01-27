@@ -47,6 +47,7 @@ class GameView extends View {
     Bitmap patternBMP;
     Drawable antennaIcon = getResources().getDrawable(R.drawable.ant);
     Drawable ewIcon = getResources().getDrawable(R.drawable.oie_transparent);
+    Drawable goalIcon = getResources().getDrawable(R.drawable.star);
 
     Paint pObst;
     Paint pAntNeutralHalo;
@@ -56,6 +57,7 @@ class GameView extends View {
     Paint pAntSpoofedHalo;
     Paint pAntElecWarHaloPart1;
     Paint pAntElecWarHaloPart2;
+    Paint pGoal;
 
     Paint pBaseRed;
     Paint pBaseBlue;
@@ -143,6 +145,10 @@ class GameView extends View {
         pBaseBlue.setStyle(Paint.Style.FILL);
         pBaseBlue.setColor(Color.BLUE);
 
+        pGoal = new Paint();
+        pGoal.setStyle((Paint.Style.FILL));
+        pGoal.setColor(Color.rgb(255,255,40));
+
     }
 
     public void setMap(CelloWarGameData m) {
@@ -163,13 +169,25 @@ class GameView extends View {
         _my_base_id = id;
     }
 
-    public Set<Integer> DetermineInterconnectedBases() {
+    /*public Set<Integer> DetermineInterconnectedBases() {
         HashSet<Integer> ret = new HashSet<>();
         for(Antenna a : _m.ants) {
             if (a._type == Antenna.AntennaType.TRANSMISSION) {
                 Set<Integer> intersection = new HashSet<Integer>(a.routing.routed_bases_top);
                 intersection.retainAll(a.routing.routed_bases_bottom);
                 ret.addAll(intersection);
+            }
+        }
+        return ret;
+    }*/
+    public Set<Integer> DetermineInterconnectedBases() {
+        HashSet<Integer> ret = new HashSet<>();
+        for (Antenna a : _m.ants) {
+            if (a._type == Antenna.AntennaType.TRANSMISSION) {
+                if (a.routing.routed_goal) {
+                    ret.addAll(a.routing.routed_bases_top);
+                    ret.addAll(a.routing.routed_bases_bottom);
+                }
             }
         }
         return ret;
@@ -208,6 +226,18 @@ class GameView extends View {
             canvas.drawRect(o._left, o._top, o._right, o._bottom, pObst);
         }
 
+        // Draw Goal
+        float goal_a = (float)(Math.sqrt(2) *  _m.GOAL_RADIUS);
+        goalIcon.setBounds(
+                (int)(this.getWidth() / 2  - goal_a / 2),
+                (int)(this.getHeight() / 2 - goal_a / 2),
+                (int)(this.getWidth() / 2  + goal_a / 2),
+                (int)(this.getHeight() / 2 + goal_a / 2));
+        
+        canvas.drawCircle(this.getWidth() / 2, this.getHeight() / 2, _m.GOAL_RADIUS, pGoal);
+        goalIcon.draw(canvas);
+
+
         // Draw your Antennas
         //
         for (Antenna a : _m.ants) {
@@ -233,6 +263,7 @@ class GameView extends View {
                     (int)(a.getBottom() + this_dy)
             );
 
+
             if (a._type == Antenna.AntennaType.TRANSMISSION) {
 
                 boolean blue_route =
@@ -244,25 +275,36 @@ class GameView extends View {
                                 a.routing.routed_bases_bottom.contains(2);
 
                 Paint selectedAntPaint = pAntNeutralHalo;
+                int antColorMult = Color.WHITE;
 
                 if (a.routing.isSpoofed) {
                     selectedAntPaint = pAntSpoofedHalo;
-                    antennaIcon.setColorFilter( Color.DKGRAY, PorterDuff.Mode.MULTIPLY );
+                    antColorMult = Color.DKGRAY;
+                    //antennaIcon.setColorFilter( Color.DKGRAY, PorterDuff.Mode.MULTIPLY );
                 } else if(blue_route && red_route) {
                     selectedAntPaint = pAndBothHalo;
-                    antennaIcon.setColorFilter(Color.rgb(150, 0, 150), PorterDuff.Mode.MULTIPLY);
+                    antColorMult = Color.rgb(150, 0, 150);
+                    //antennaIcon.setColorFilter(Color.rgb(150, 0, 150), PorterDuff.Mode.MULTIPLY);
                 } else if (blue_route) {
 
                     selectedAntPaint = pAntBlueHalo;
-                    antennaIcon.setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
+                    antColorMult = Color.BLUE;
+                    //antennaIcon.setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
                 } else if (red_route ) {
                     selectedAntPaint = pAntRedHalo;
-                    antennaIcon.setColorFilter( Color.RED, PorterDuff.Mode.MULTIPLY );
+                    antColorMult = Color.RED;
+                    //.setColorFilter( Color.RED, PorterDuff.Mode.MULTIPLY );
                 } else {
                     selectedAntPaint = pAntNeutralHalo;
-                    antennaIcon.setColorFilter( Color.WHITE, PorterDuff.Mode.MULTIPLY );
+                    antColorMult = Color.WHITE;
                 }
 
+                if (a.routing.isSpoofed == false && a.routing.routed_goal) {
+                    antColorMult = pGoal.getColor();
+                    //antColorMult = 0xffff00;
+                }
+
+                antennaIcon.setColorFilter( antColorMult, PorterDuff.Mode.MULTIPLY );
                 antennaIcon.draw(canvas);
                 canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, selectedAntPaint);
             } else if (a._type == Antenna.AntennaType.ELECTONIC_WARFARE) {
@@ -275,6 +317,7 @@ class GameView extends View {
             }
         }
 
+        // TODO: Debug removeme
         Paint debugp = new Paint();
         debugp.setColor(Color.YELLOW);
         debugp.setTextSize(120.0f);
