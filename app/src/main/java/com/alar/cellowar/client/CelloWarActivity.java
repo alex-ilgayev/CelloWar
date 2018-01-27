@@ -107,9 +107,9 @@ public class CelloWarActivity extends BaseActivity {
         _gameData.ants.add(new Antenna(200.0f, 50.0f, 50.0f, Antenna.AntennaType.TRANSMISSION ));
         _gameData.ants.add(new Antenna(400.0f, 50.0f, 350.0f, Antenna.AntennaType.TRANSMISSION ));
         _gameData.ants.add(new Antenna(350.0f, 650.0f, 650.0f, Antenna.AntennaType.ELECTONIC_WARFARE ));
-        _gameData.ants.add(new Antenna(300.0f, 1050.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
-        _gameData.ants.add(new Antenna(300.0f, 650.0f, 900.0f, Antenna.AntennaType.TRANSMISSION ));
-        _gameData.ants.add(new Antenna(300.0f, 600.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
+        //_gameData.ants.add(new Antenna(300.0f, 1050.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
+        //_gameData.ants.add(new Antenna(300.0f, 650.0f, 900.0f, Antenna.AntennaType.TRANSMISSION ));
+        //_gameData.ants.add(new Antenna(300.0f, 600.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
 
         _gameData.ants.add(new Antenna(250.0f, 640.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
         _gameData.ants.add(new Antenna(250.0f, 620.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
