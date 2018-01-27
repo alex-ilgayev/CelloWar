@@ -66,11 +66,8 @@ class GameView extends View {
         super(context, attrs);
 
         setupPaint();
-        setMap(new CelloWarGameData());
-        _my_base_id = 0;
-
-
-
+        //setMap(new CelloWarGameData());
+       // _my_base_id = 0;
     }
 
     // TODO: ?
@@ -84,6 +81,16 @@ class GameView extends View {
         _m.CalcRouting(this.getWidth(), this.getHeight());
     }*/
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        if (_m != null) {
+            _m.UpdateViewSize(w,h);
+        }
+
+        invalidate();
+    }
 
     private void setupPaint() {
         pObst = new Paint();
@@ -153,7 +160,11 @@ class GameView extends View {
 
     public void setMap(CelloWarGameData m) {
         _m = m;
-        _m.CalcRouting(this.getWidth(), this.getHeight());
+
+        // If W/H not set yet, just accept the map
+        if(getWidth() != 0.0f && getHeight() != 0.0f) {
+            _m.UpdateViewSize(this.getWidth(), getHeight());
+        }
         invalidate();
     }
 

@@ -100,7 +100,7 @@ public class CelloWarActivity extends BaseActivity {
 //        _gameData.ants.add(new Antenna(1, 2, 3, Antenna.AntennaType.ELECTONIC_WARFARE));
 
         // TODO: artium debug
-        _gameData = new CelloWarGameData(); // TODO: artium debug
+        /*_gameData = new CelloWarGameData(); // TODO: artium debug
         _gameData.obst.add(new Obstacle(100.0f, 100.0f, 200.0f, 500.0f));
         _gameData.obst.add(new Obstacle(100.0f, 100.0f, 500.0f, 200.0f));
         _gameData.obst.add(new Obstacle(900.0f, 450.0f, 1100.0f, 650.0f));
@@ -117,6 +117,24 @@ public class CelloWarActivity extends BaseActivity {
 
         _gameData.ants.add(new Antenna(250.0f, 640.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
         _gameData.ants.add(new Antenna(250.0f, 620.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
+*/
+        _gameData = new CelloWarGameData();
+        _gameData.setWH(100.0f, 100.0f);
+        _gameData.obst.add(new Obstacle(20.0f, 20.0f, 30.0f, 30.0f));
+        _gameData.obst.add(new Obstacle(70.0f, 70.0f, 80.0f, 80.0f));
+        _gameData.obst.add(new Obstacle(70.0f, 20.0f, 80.0f, 30.0f));
+        _gameData.obst.add(new Obstacle(20.0f, 70.0f, 30.0f, 80.0f));
+
+        _gameData.obst.add(new Obstacle(25.0f, 45.0f, 35.0f, 55.0f));
+        _gameData.obst.add(new Obstacle(65.0f, 45.0f, 75.0f, 55.0f));
+
+        _gameData.ants.add(new Antenna(30.0f, 10.0f, 10.0f, Antenna.AntennaType.TRANSMISSION ));
+        _gameData.ants.add(new Antenna(15.0f, 15.0f, 10.0f, Antenna.AntennaType.TRANSMISSION ));
+        _gameData.ants.add(new Antenna(15.0f, 20.0f, 10.0f, Antenna.AntennaType.TRANSMISSION ));
+        _gameData.ants.add(new Antenna(15.0f, 25.0f, 10.0f, Antenna.AntennaType.TRANSMISSION ));
+        _gameData.ants.add(new Antenna(15.0f, 10.0f, 15.0f, Antenna.AntennaType.TRANSMISSION ));
+        _gameData.ants.add(new Antenna(10.0f, 10.0f, 20.0f, Antenna.AntennaType.ELECTONIC_WARFARE ));
+        _gameData.ants.add(new Antenna(10.0f, 10.0f, 25.0f, Antenna.AntennaType.ELECTONIC_WARFARE ));
 
         _gameView.setMap(_gameData); // need to call after layout is created
     }
