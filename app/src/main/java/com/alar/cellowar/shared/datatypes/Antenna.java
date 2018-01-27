@@ -48,7 +48,7 @@ public class Antenna implements Serializable{
 
     public AntennaRouting routing;
 
-    public final float _radius;
+    public float _radius;
     public float _x,_y;
     public final AntennaType _type;
 
