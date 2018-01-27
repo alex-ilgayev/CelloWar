@@ -329,7 +329,7 @@ class GameView extends View {
         }
 
         // TODO: Debug removeme
-        Paint debugp = new Paint();
+        /*Paint debugp = new Paint();
         debugp.setColor(Color.YELLOW);
         debugp.setTextSize(120.0f);
         Set<Integer> bases = DetermineInterconnectedBases();
@@ -341,7 +341,7 @@ class GameView extends View {
             canvas.drawText("PLAYER 1", 200, 200, debugp);
         } else if (bases.contains(2)) {
             canvas.drawText("PLAYER 2", 200, 200, debugp);
-        }
+        }*/
         invalidate();
     }
 

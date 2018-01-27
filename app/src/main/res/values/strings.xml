@@ -11,6 +11,9 @@
 
     <string name="info_place_ant">מקם את האנטנות בצורה מיטבית</string>
     <string name="info_wait">חכה עד שיריבך יסיים את תורו</string>
-    <string name="info_finish">המשחק הסתיים, המנצח הוא: </string>
+    <string name="info_finish1">המשחק הסתיים, המנצח הוא ף אחד </string>
+    <string name="info_finish2">המשחק הסתיים, המנצח הוא שניכם </string>
+    <string name="info_finish3">המשחק הסתיים, המנצח הוא כחול </string>
+    <string name="info_finish4">המשחק הסתיים, המנצח הוא אדום </string>
     <string name="info_enemy_finished">יריבך סיים את תורו</string>
 </resources>
