@@ -40,6 +40,7 @@ class GameView extends View {
     BitmapShader bmpShader;
     Bitmap patternBMP;
     Drawable antennaIcon = getResources().getDrawable(R.drawable.ant);
+    Drawable ewIcon = getResources().getDrawable(R.drawable.oie_transparent);
 
     Paint pObst;
     Paint pAntNeutralHalo;
@@ -199,9 +200,12 @@ class GameView extends View {
                     (int)(a.getBottom() + this_dy)
             );
 
-            //antennaIcon.setColorFilter( 0xffff0000, PorterDuff.Mode.MULTIPLY );
-
-            antennaIcon.draw(canvas);
+            ewIcon.setBounds(
+                    (int)(a.getLeft()   + this_dx),
+                    (int)(a.getTop()    + this_dy),
+                    (int)(a.getRight()  + this_dx),
+                    (int)(a.getBottom() + this_dy)
+            );
 
             if (a._type == Antenna.AntennaType.TRANSMISSION) {
 
@@ -237,8 +241,8 @@ class GameView extends View {
                 canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, selectedAntPaint);
             } else if (a._type == Antenna.AntennaType.ELECTONIC_WARFARE) {
 
-                antennaIcon.setColorFilter( Color.WHITE, PorterDuff.Mode.MULTIPLY );
-                antennaIcon.draw(canvas);
+                //antennaIcon.setColorFilter( Color.WHITE, PorterDuff.Mode.MULTIPLY );
+                ewIcon.draw(canvas);
 
                 canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, pAntElecWarHaloPart1);
                 canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, pAntElecWarHaloPart2);

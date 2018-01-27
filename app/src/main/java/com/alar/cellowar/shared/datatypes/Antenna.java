@@ -16,6 +16,10 @@ public class Antenna implements Serializable{
     static final int ANT_H = 150;
     static final int ANT_BASE_H = ANT_H / 4;
 
+    static final int ANT_EW_W = 130;
+    static final int ANT_EW_H = 130;
+    static final int ANT_EW_BASE_H = ANT_EW_H / 4;
+
     public enum AntennaType {
         TRANSMISSION,
         ELECTONIC_WARFARE
@@ -62,13 +66,45 @@ public class Antenna implements Serializable{
         return getRect(0.0f,0.0f);
     }
 
+    private float get_W() {
+        if(_type == AntennaType.TRANSMISSION) {
+            return ANT_W;
+        } else if (_type == AntennaType.ELECTONIC_WARFARE) {
+            return ANT_EW_W;
+        } else {
+            assert (false);
+            return 0.0f;
+        }
+    }
+
+    private float get_H() {
+        if(_type == AntennaType.TRANSMISSION) {
+            return ANT_H;
+        } else if (_type == AntennaType.ELECTONIC_WARFARE) {
+            return ANT_EW_H;
+        } else {
+            assert (false);
+            return 0.0f;
+        }
+    }
+
+    private float get_Base_H() {
+        if(_type == AntennaType.TRANSMISSION) {
+            return ANT_BASE_H;
+        } else if (_type == AntennaType.ELECTONIC_WARFARE) {
+            return ANT_EW_BASE_H;
+        } else {
+            assert (false);
+            return 0.0f;
+        }
+    }
 
     public Rect getRect(float dx, float dy) {
         return new Rect(
-                (int)(this._x - ANT_W / 2 + dx),
-                (int)(this._y - ANT_H / 2 + dy),
-                (int)(this._x + ANT_W / 2 + dx),
-                (int)(this._y + ANT_H / 2 + dy));
+                (int)(this._x - get_W() / 2 + dx),
+                (int)(this._y - get_H() / 2 + dy),
+                (int)(this._x + get_W() / 2 + dx),
+                (int)(this._y + get_H() / 2 + dy));
     }
 
     public Rect getCollisionRect() {
@@ -77,25 +113,25 @@ public class Antenna implements Serializable{
 
     public Rect getCollisionRect(float dx, float dy) {
         return new Rect(
-                (int) (this._x - ANT_W / 2 + dx),
-                (int) (this._y + ANT_H / 2 - ANT_BASE_H + dy),
-                (int) (this._x + ANT_W / 2 + dx),
-                (int) (this._y + ANT_H / 2 + dy));
+                (int) (this._x - get_W()/ 2 + dx),
+                (int) (this._y + get_H() / 2 - get_Base_H() + dy),
+                (int) (this._x + get_W() / 2 + dx),
+                (int) (this._y + get_H() / 2 + dy));
     }
 
     public float getLeft() {
-        return this._x - ANT_W / 2;
+        return this._x - get_W() / 2;
     }
 
     public float getTop() {
-        return this._y - ANT_H / 2;
+        return this._y - get_H() / 2;
     }
 
     public float getRight() {
-        return this._x + ANT_W / 2;
+        return this._x + get_W() / 2;
     }
 
     public float getBottom() {
-        return this._y + ANT_H / 2;
+        return this._y + get_H() / 2;
     }
 }
