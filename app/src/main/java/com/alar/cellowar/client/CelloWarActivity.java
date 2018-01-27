@@ -99,7 +99,26 @@ public class CelloWarActivity extends BaseActivity {
 //        _gameData.ants.add(new Antenna(10, 5, 6, Antenna.AntennaType.TRANSMISSION));
 //        _gameData.ants.add(new Antenna(1, 2, 3, Antenna.AntennaType.ELECTONIC_WARFARE));
 
-        _gameView.setMap(_gameData);
+        // TODO: artium debug
+        _gameData = new CelloWarGameData(); // TODO: artium debug
+        _gameData.obst.add(new Obstacle(100.0f, 100.0f, 200.0f, 500.0f));
+        _gameData.obst.add(new Obstacle(100.0f, 100.0f, 500.0f, 200.0f));
+        _gameData.obst.add(new Obstacle(900.0f, 450.0f, 1100.0f, 650.0f));
+
+        _gameData.obst.add(new Obstacle(500.0f, 500.0f, 800.0f, 1200.0f));
+
+
+        _gameData.ants.add(new Antenna(200.0f, 50.0f, 50.0f, Antenna.AntennaType.TRANSMISSION ));
+        _gameData.ants.add(new Antenna(400.0f, 50.0f, 350.0f, Antenna.AntennaType.TRANSMISSION ));
+        _gameData.ants.add(new Antenna(350.0f, 650.0f, 650.0f, Antenna.AntennaType.ELECTONIC_WARFARE ));
+        //_gameData.ants.add(new Antenna(300.0f, 1050.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
+        //_gameData.ants.add(new Antenna(300.0f, 650.0f, 900.0f, Antenna.AntennaType.TRANSMISSION ));
+        //_gameData.ants.add(new Antenna(300.0f, 600.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
+
+        _gameData.ants.add(new Antenna(250.0f, 640.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
+        _gameData.ants.add(new Antenna(250.0f, 620.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
+
+        _gameView.setMap(_gameData); // need to call after layout is created
     }
 
     public void postInfo(String text) {

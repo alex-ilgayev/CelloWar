@@ -18,9 +18,15 @@ public class Settings {
 
 //    public static final String ROOT_URL = "https://t-monument-94020.appspot.com/_ah/api/";
 //    public static final String ROOT_URL = "http://10.0.2.2:8080/_ah/api/";
+<<<<<<< HEAD
     public static final String ROOT_URL = "http://10.0.2.2:8080/";
 //    public static final String ROOT_URL = "http://10.25.104.152:8080/";
 //    public static final String ROOT_URL = "http://default-environment.y2ruc2btia.eu-central-1.elasticbeanstalk.com/";
+=======
+//    public static final String ROOT_URL = "http://10.0.2.2:8080/";
+    public static final String ROOT_URL = "http://default-environment.y2ruc2btia.eu-central-1.elasticbeanstalk.com/";
+//    public static final String ROOT_URL = "http://cellawar-env.eu-central-1.elasticbeanstalk.com/";
+>>>>>>> 94dbab82e415c7aee88afdfb7ceed264c3e34d25
 
     public static final int POLL_TIMESTAMP = 1000;
     public static final int DISCONNECTION_TIMESTAMP = 3000;
