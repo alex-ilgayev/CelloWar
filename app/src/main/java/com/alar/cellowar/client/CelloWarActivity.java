@@ -27,6 +27,7 @@ import com.alar.cellowar.shared.messaging.MessageRequestSetMove;
 import com.alar.cellowar.shared.messaging.MessageResponseSession;
 
 import java.io.Serializable;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -146,6 +147,8 @@ public class CelloWarActivity extends BaseActivity {
     public class EventHandlerToSudokuActivity implements ICallback {
         @Override
         public void receiveMessage(IMessage message) {
+            Set<Integer> bases;
+
             switch(message.getMessageType()) {
                 case RESPONSE_SESSION:
                     if(message.getId() == null ||
@@ -176,9 +179,20 @@ public class CelloWarActivity extends BaseActivity {
                             // check if state changed.
                             if(_gameData.state != CelloWarGameData.State.WAIT_FOR_OTHER) {
                                 // check if you the one who finished
-                                if(_pbWaiting.getVisibility() == View.INVISIBLE)
+                                if(_pbWaiting.getVisibility() == View.INVISIBLE) {
+                                    bases = _gameView.DetermineInterconnectedBases();
+                                    if (bases.size() == 0) {
+                                        postInfo(getString(R.string.info_finish1));
+                                    } else if (bases.size() >= 2) {
+                                        postInfo(getString(R.string.info_finish2));
+                                    } else if (bases.contains(1)) {
+                                        postInfo(getString(R.string.info_finish3));
+                                    } else if (bases.contains(2)) {
+                                        postInfo(getString(R.string.info_finish4));
+                                    }
 
-                                postInfo(getString(R.string.info_finish));
+                                    //postInfo(getString(R.string.info_finish));
+                                }
                                 _pbWaiting.setVisibility(View.INVISIBLE);
                             }
                             _btnFinishMove.setVisibility(View.INVISIBLE);
