@@ -12,12 +12,12 @@ import java.util.HashSet;
 public class Antenna implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    static float ANT_W = 7.0f;
-    static float ANT_H = 10.0f;
+    static float ANT_W = 110.0f;
+    static float ANT_H = 150.0f;
     static float ANT_BASE_H = ANT_H / 4;
 
-    static float ANT_EW_W = 8.0f;
-    static float ANT_EW_H = 8.0f;
+    static float ANT_EW_W = 130.0f;
+    static float ANT_EW_H = 130.0f;
     static float ANT_EW_BASE_H = ANT_EW_H / 4;
 
     public enum AntennaType {
