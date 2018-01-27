@@ -1,11 +1,15 @@
 package com.alar.cellowar.client;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -32,20 +36,27 @@ class GameView extends View {
     float original_y;
     float dx;
     float dy;
-    Paint p;
-    //BitmapShader bmpShader;
-    //Bitmap patternBMP;
 
+    BitmapShader bmpShader;
+    Bitmap patternBMP;
     Drawable antennaIcon = getResources().getDrawable(R.drawable.ant);
+
+    Paint pObst;
+    Paint pAntNeutralHalo;
+    Paint pAntRedHalo;
+    Paint pAntBlueHalo;
+    Paint pAndBothHalo;
+    Paint pAntSpoofedHalo;
+    Paint pAntElecWarHaloPart1;
+    Paint pAntElecWarHaloPart2;
+
+    Paint pBaseRed;
+    Paint pBaseBlue;
 
     public GameView (Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        p = new Paint();
-
-        //patternBMP = BitmapFactory.decodeResource(getResources(), R.drawable.);
-        //bmpShader = new BitmapShader(patternBMP,
-        //        Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+        setupPaint();
         _m = new CelloWarGameData();
         _my_base_id = 1;
 
@@ -53,16 +64,78 @@ class GameView extends View {
 
     }
 
-    // TODO: !
+    // TODO: ?
+    /*
     public GameView (Context context, CelloWarGameData m, int my_base_id) {
         super(context);
-        p = new Paint();
+        setupPaint()
         _m = m;
         _my_base_id = my_base_id;
 
-
-
         _m.CalcRouting(this.getWidth(), this.getHeight());
+    }*/
+
+
+    private void setupPaint() {
+        pObst = new Paint();
+        pObst.setStyle(Paint.Style.FILL);
+        pObst.setColor(Color.rgb(40,60,40));
+
+        pAntNeutralHalo = new Paint();
+        pAntNeutralHalo.setStyle(Paint.Style.FILL);
+        pAntNeutralHalo.setColor(Color.LTGRAY);
+        pAntNeutralHalo.setAlpha(50);
+
+
+        pAntRedHalo = new Paint();
+        pAntRedHalo.setStyle(Paint.Style.FILL);
+        pAntRedHalo.setColor(Color.RED);
+        pAntRedHalo.setAlpha(50);
+
+
+        pAntBlueHalo = new Paint();
+        pAntBlueHalo.setStyle(Paint.Style.FILL);
+        pAntBlueHalo.setColor(Color.BLUE);
+        pAntBlueHalo.setAlpha(50);
+
+
+        // Do not use the shader paint - too slow
+        //patternBMP = BitmapFactory.decodeResource(getResources(), R.drawable.checker);
+        //bmpShader = new BitmapShader(patternBMP,
+        //        Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+        pAndBothHalo = new Paint();
+        pAndBothHalo.setStyle(Paint.Style.FILL);
+        pAndBothHalo.setColor(Color.rgb(150, 0, 150));
+        pAndBothHalo.setAlpha(50);
+        //pAndBothHalo.setColor(0xffffff);
+        //pAndBothHalo.setShader(bmpShader);
+
+        pAntSpoofedHalo = new Paint();
+        pAntSpoofedHalo.setStyle(Paint.Style.FILL);
+        pAntSpoofedHalo.setColor(Color.DKGRAY);
+        pAntSpoofedHalo.setAlpha(50);
+
+
+        pAntElecWarHaloPart1 = new Paint();
+        pAntElecWarHaloPart1.setStyle(Paint.Style.FILL);
+        pAntElecWarHaloPart1.setColor(Color.DKGRAY);
+        pAntElecWarHaloPart1.setAlpha(40);
+
+        //PorterDuff.Mode mode = PorterDuff.Mode.DST_OUT;
+        //p.setXfermode(new PorterDuffXfermode((mode)));
+
+        pAntElecWarHaloPart2 = new Paint();
+        pAntElecWarHaloPart2.setStyle(Paint.Style.STROKE);
+        pAntElecWarHaloPart2.setColor(Color.WHITE);
+
+        pBaseRed = new Paint();
+        pBaseRed.setStyle(Paint.Style.FILL);
+        pBaseRed.setColor(Color.RED);
+
+        pBaseBlue = new Paint();
+        pBaseBlue.setStyle(Paint.Style.FILL);
+        pBaseBlue.setColor(Color.BLUE);
+
     }
 
     public void setMap(CelloWarGameData m) {
@@ -77,42 +150,35 @@ class GameView extends View {
 
     protected void onDraw(Canvas canvas) {
         canvas.drawRGB(60, 80, 60);
-        p.reset();
 
         // Draw Bases
         //
-        p.setAlpha(0);
-        p.setStyle(Paint.Style.FILL);
-        p.setColor(Color.RED);
         canvas.drawRect(0.0f,
                 this.getHeight() - CelloWarGameData.BASE_H,
                 this.getWidth() / 2.0f,
                 (float)this.getHeight(),
-                p);
+                pBaseRed);
         canvas.drawRect(this.getWidth() / 2.0f,
                 0.0f,
                 (float)this.getWidth(),
                 CelloWarGameData.BASE_H,
-                p);
+                pBaseRed);
 
-        p.setColor(Color.BLUE);
         canvas.drawRect(this.getWidth() / 2.0f,
                 this.getHeight() - CelloWarGameData.BASE_H,
                 (float)this.getWidth(),
                 (float)this.getHeight(),
-                p);
+                pBaseBlue);
         canvas.drawRect(0.0f,
                 0.0f,
                 this.getWidth() / 2.0f,
                 CelloWarGameData.BASE_H,
-                p);
+                pBaseBlue);
 
         // Draw Obstacles
         //
-        p.setStyle(Paint.Style.FILL);
-        p.setColor(Color.rgb(40,60,40));
         for (Obstacle o : _m.obst) {
-            canvas.drawRect(o._left, o._top, o._right, o._bottom, p);
+            canvas.drawRect(o._left, o._top, o._right, o._bottom, pObst);
         }
 
         // Draw your Antennas
@@ -126,7 +192,6 @@ class GameView extends View {
                 this_dy = dy;
             }
 
-            p.setColor(Color.BLUE);
             antennaIcon.setBounds(
                     (int)(a.getLeft()   + this_dx),
                     (int)(a.getTop()    + this_dy),
@@ -148,49 +213,36 @@ class GameView extends View {
                         a.routing.routed_bases_top.contains(2) ||
                                 a.routing.routed_bases_bottom.contains(2);
 
+                Paint selectedAntPaint = pAntNeutralHalo;
+
                 if (a.routing.isSpoofed) {
-
-                    p.setColor(Color.DKGRAY);
+                    selectedAntPaint = pAntSpoofedHalo;
                     antennaIcon.setColorFilter( Color.DKGRAY, PorterDuff.Mode.MULTIPLY );
-
                 } else if(blue_route && red_route) {
-                    p.setColor(Color.rgb(150, 0, 150));
+                    selectedAntPaint = pAndBothHalo;
                     antennaIcon.setColorFilter(Color.rgb(150, 0, 150), PorterDuff.Mode.MULTIPLY);
                 } else if (blue_route) {
-                    p.setColor(Color.BLUE);
+
+                    selectedAntPaint = pAntBlueHalo;
                     antennaIcon.setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
                 } else if (red_route ) {
-                    p.setColor(Color.RED);
+                    selectedAntPaint = pAntRedHalo;
                     antennaIcon.setColorFilter( Color.RED, PorterDuff.Mode.MULTIPLY );
                 } else {
-                    p.setColor(Color.LTGRAY);
+                    selectedAntPaint = pAntNeutralHalo;
                     antennaIcon.setColorFilter( Color.WHITE, PorterDuff.Mode.MULTIPLY );
                 }
 
                 antennaIcon.draw(canvas);
-                p.setAlpha(50);
-                canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, p);
+                canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, selectedAntPaint);
             } else if (a._type == Antenna.AntennaType.ELECTONIC_WARFARE) {
+
                 antennaIcon.setColorFilter( Color.WHITE, PorterDuff.Mode.MULTIPLY );
                 antennaIcon.draw(canvas);
 
-                p.setStyle(Paint.Style.FILL);
-                //PorterDuff.Mode mode = PorterDuff.Mode.DST_OUT;
-                //p.setXfermode(new PorterDuffXfermode((mode)));
-
-                p.setColor(Color.DKGRAY);
-                p.setAlpha(40);
-                canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, p);
-
-                p.setStyle(Paint.Style.STROKE);
-                p.setColor(Color.WHITE);
-                canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, p);
+                canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, pAntElecWarHaloPart1);
+                canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, pAntElecWarHaloPart2);
             }
-                /*p.setAlpha(80);
-                p.setColor(Color.GREEN);
-                p.setStyle(Paint.Style.FILL);
-                Rect rr = a.getCollisionRect(this_dx, this_dy);
-                canvas.drawRect(rr, p);*/
         }
 
         invalidate();

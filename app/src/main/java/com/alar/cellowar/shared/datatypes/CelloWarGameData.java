@@ -52,6 +52,10 @@ public class CelloWarGameData implements Serializable{
         // red base
         CalcSingleBaseRouting( true, width/2.0f, width, height,2);
         CalcSingleBaseRouting( false, 0.0f, width/2.0f, height, 2);
+
+        // Now calculate the rest of the antennas
+        CalcTransitiveRouting();
+
     }
 
     public void CalcSpoofing() {
@@ -70,6 +74,11 @@ public class CelloWarGameData implements Serializable{
 
     public void CalcSingleBaseRouting(boolean is_top, float left, float right, float height, int base_id){
         for (Antenna a : ants) {
+            // Ignore spoofed antennas
+            if (a.routing.isSpoofed) {
+                continue;
+            }
+
             if(is_top) {
                 if (a._y - a._radius < BASE_H) {
                     if ((a._x > left && a._x < right) ||
@@ -85,6 +94,31 @@ public class CelloWarGameData implements Serializable{
                             a.isInsideHalo(right , height- BASE_H) ||
                             a.isInsideHalo(left , height - BASE_H)) {
                         a.routing.routed_bases_bottom.add(base_id);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Highly inefficient approximately O(N**4). Use with up to 20 antennas
+     */
+    public void CalcTransitiveRouting() {
+        // Number of steps == number of nodes
+        for (int i = 0; i<ants.size(); i++) {
+            for(Antenna a : ants) {
+                if (a._type == Antenna.AntennaType.TRANSMISSION && a.routing.isSpoofed == false) {
+                    for (Antenna b : ants) {
+                        if (b._type == Antenna.AntennaType.TRANSMISSION && b.routing.isSpoofed == false) {
+                            // a needs to be in b's halo or vice versa
+                            // this can be changed later
+                            if (a.isInsideHalo(b._x, b._y) || b.isInsideHalo(a._x, a._y)) {
+                                a.routing.routed_bases_bottom.addAll(b.routing.routed_bases_top);
+                                a.routing.routed_bases_bottom.addAll(b.routing.routed_bases_top);
+                                a.routing.routed_bases_bottom.addAll(b.routing.routed_bases_bottom);
+                                a.routing.routed_bases_bottom.addAll(b.routing.routed_bases_bottom);
+                            }
+                        }
                     }
                 }
             }
