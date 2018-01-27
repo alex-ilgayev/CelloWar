@@ -233,7 +233,7 @@ class GameView extends View {
                 (int)(this.getHeight() / 2 - goal_a / 2),
                 (int)(this.getWidth() / 2  + goal_a / 2),
                 (int)(this.getHeight() / 2 + goal_a / 2));
-        
+
         canvas.drawCircle(this.getWidth() / 2, this.getHeight() / 2, _m.GOAL_RADIUS, pGoal);
         goalIcon.draw(canvas);
 
@@ -329,7 +329,7 @@ class GameView extends View {
         } else if (bases.contains(1)) {
             canvas.drawText("PLAYER 1", 200, 200, debugp);
         } else if (bases.contains(2)) {
-            canvas.drawText("PLAYER 1", 200, 200, debugp);
+            canvas.drawText("PLAYER 2", 200, 200, debugp);
         }
         invalidate();
     }
