@@ -18,6 +18,7 @@ import com.alar.cellowar.client.controller.Settings;
 import com.alar.cellowar.shared.datatypes.Client;
 import com.alar.cellowar.shared.datatypes.ConnectionStatus;
 import com.alar.cellowar.shared.datatypes.ICallback;
+import com.alar.cellowar.shared.datatypes.Session;
 import com.alar.cellowar.shared.messaging.IMessage;
 import com.alar.cellowar.shared.messaging.MessageInnerConnectionStatus;
 import com.alar.cellowar.shared.messaging.MessageRequestAvailableClients;
@@ -180,14 +181,17 @@ public class MainActivity  extends BaseActivity{
                     setLoadingFab(false);
                     break;
                 case RESPONSE_SESSION:
-                    if(message.getId() == null ||
-                            (!message.getId().equals(_waitingForNewGameResponse) &&
-                                    !message.getId().equals(_waitingForJoinGameResponse) &&
-                                    !message.getId().equals(_waitingForJoinPoolResponse)))
-                        break;
+                    //TODO: find solution to packets which we are not ready for them.
+//                    if(message.getId() == null ||
+//                            (!message.getId().equals(_waitingForNewGameResponse) &&
+//                                    !message.getId().equals(_waitingForJoinGameResponse) &&
+//                                    !message.getId().equals(_waitingForJoinPoolResponse)))
+//                        break;
                     MessageResponseSession sessionMessage = (MessageResponseSession)message;
-                    if(sessionMessage.activeSession.getGameData() != null) {
+                    if(sessionMessage.activeSession.getGameData() != null &&
+                            sessionMessage.activeSession.getIsSearching() == false) {
 //                         starting game.
+                        _client.setCurrSessionId(sessionMessage.getId());
                         Intent i = new Intent(MainActivity.this, CelloWarActivity.class);
                         i.putExtra(CelloWarActivity.INTENT_TAG_CELLOWAR_GAME_DATA,
                                 sessionMessage.activeSession.getGameData());
@@ -197,6 +201,9 @@ public class MainActivity  extends BaseActivity{
                                 sessionMessage.activeSession.getClientOrder().get(_client.getId()));
                         setLoadingFab(false);
                         startActivity(i);
+                    } else if(sessionMessage.activeSession.getIsSearching()) {
+                        // waiting for a game.
+                        _client.setCurrSessionId(sessionMessage.activeSession.getSessionId());
                     }
                     break;
                 case INNER_CONNECTION_STATUS:

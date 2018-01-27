@@ -45,6 +45,8 @@ public class CelloWarActivity extends BaseActivity {
     private com.wang.avi.AVLoadingIndicatorView _pbWaiting;
     private GameView _gameView;
 
+    private boolean isPlayerFinishedTurn = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +88,8 @@ public class CelloWarActivity extends BaseActivity {
                 msg.id = UUID.randomUUID();
                 msg.move = _gameData;
                 _networkManager.sendMessage(msg);
+
+                isPlayerFinishedTurn = true;
             }
         });
 
@@ -121,16 +125,22 @@ public class CelloWarActivity extends BaseActivity {
                             break;
                         case WAIT_FOR_OTHER:
                             // check if state changed.
-                            if(_gameData.state == CelloWarGameData.State.ANT_PLACEMENT) {
+                            if(isPlayerFinishedTurn) {
                                 postInfo(getString(R.string.info_wait));
                                 _btnFinishMove.setVisibility(View.INVISIBLE);
                                 _pbWaiting.setVisibility(View.VISIBLE);
+                            } else {
+                                _tvGameInfo.setText(getString(R.string.info_enemy_finished));
+                                break;
                             }
                             _gameData = data;
                             break;
                         case SHOW_RESULT:
                             // check if state changed.
-                            if(_gameData.state == CelloWarGameData.State.WAIT_FOR_OTHER) {
+                            if(_gameData.state != CelloWarGameData.State.WAIT_FOR_OTHER) {
+                                // check if you the one who finished
+                                if(_pbWaiting.getVisibility() == View.INVISIBLE)
+
                                 postInfo(getString(R.string.info_finish));
                                 _pbWaiting.setVisibility(View.INVISIBLE);
                             }

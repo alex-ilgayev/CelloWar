@@ -3,6 +3,7 @@ package com.alar.cellowar.shared.datatypes;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -12,7 +13,8 @@ public class Session implements Serializable{
     private static final long serialVersionUID = 1L;
 
     private UUID _sessionId;
-    private LinkedList<Client> _clientList;
+    private List<Client> _clientList;
+    private boolean _isSearching = false;
 
     // a map from client ID to the order number (1,2,3 ..)
     private HashMap<Integer, Integer> _clientOrder;
@@ -20,7 +22,7 @@ public class Session implements Serializable{
     //TODO MAP
     CelloWarGameData _gameData;
 
-    public Session(UUID sessionId, LinkedList<Client> clientList
+    public Session(UUID sessionId, List<Client> clientList
             , CelloWarGameData gameData, HashMap<Integer, Integer> clientOrder){
         this._sessionId = sessionId;
         this._clientList = clientList;
@@ -40,7 +42,7 @@ public class Session implements Serializable{
         return _sessionId;
     }
 
-    public LinkedList<Client> getClientList(){
+    public List<Client> getClientList(){
         return _clientList;
     }
 
@@ -54,6 +56,14 @@ public class Session implements Serializable{
 
     public HashMap<Integer, Integer> getClientOrder() {
         return this._clientOrder;
+    }
+
+    public boolean getIsSearching() {
+        return this._isSearching;
+    }
+
+    public void setIsSearching(boolean isSearching) {
+        this._isSearching = isSearching;
     }
 
     @Override
