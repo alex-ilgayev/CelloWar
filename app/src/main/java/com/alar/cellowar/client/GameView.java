@@ -11,6 +11,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +20,11 @@ import com.alar.cellowar.R;
 import com.alar.cellowar.shared.datatypes.Antenna;
 import com.alar.cellowar.shared.datatypes.CelloWarGameData;
 import com.alar.cellowar.shared.datatypes.Obstacle;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created by alexi on 1/26/2018.
@@ -58,10 +64,10 @@ class GameView extends View {
         super(context, attrs);
 
         setupPaint();
-        _m = new CelloWarGameData();
-        _my_base_id = 1;
+        setMap(new CelloWarGameData());
+        _my_base_id = 0;
 
-        _m.CalcRouting(this.getWidth(), this.getHeight());
+
 
     }
 
@@ -147,6 +153,26 @@ class GameView extends View {
 
     public CelloWarGameData getMap() {
         return _m;
+    }
+
+    public int getMyBaseId() {
+        return _my_base_id;
+    }
+
+    public void setMyBaseId(int id) {
+        _my_base_id = id;
+    }
+
+    public Set<Integer> DetermineInterconnectedBases() {
+        HashSet<Integer> ret = new HashSet<>();
+        for(Antenna a : _m.ants) {
+            if (a._type == Antenna.AntennaType.TRANSMISSION) {
+                Set<Integer> intersection = new HashSet<Integer>(a.routing.routed_bases_top);
+                intersection.retainAll(a.routing.routed_bases_bottom);
+                ret.addAll(intersection);
+            }
+        }
+        return ret;
     }
 
     protected void onDraw(Canvas canvas) {
@@ -249,6 +275,19 @@ class GameView extends View {
             }
         }
 
+        Paint debugp = new Paint();
+        debugp.setColor(Color.YELLOW);
+        debugp.setTextSize(120.0f);
+        Set<Integer> bases = DetermineInterconnectedBases();
+        if (bases.size() == 0) {
+            canvas.drawText("NONE", 200, 200, debugp);
+        } else if (bases.size() >= 2) {
+            canvas.drawText("BOTH", 200, 200, debugp);
+        } else if (bases.contains(1)) {
+            canvas.drawText("PLAYER 1", 200, 200, debugp);
+        } else if (bases.contains(2)) {
+            canvas.drawText("PLAYER 1", 200, 200, debugp);
+        }
         invalidate();
     }
 

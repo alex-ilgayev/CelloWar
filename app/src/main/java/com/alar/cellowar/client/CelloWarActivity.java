@@ -111,7 +111,10 @@ public class CelloWarActivity extends BaseActivity {
         _gameData.ants.add(new Antenna(300.0f, 650.0f, 900.0f, Antenna.AntennaType.TRANSMISSION ));
         _gameData.ants.add(new Antenna(300.0f, 600.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
 
-        _gameView.setMap(_gameData);
+        _gameData.ants.add(new Antenna(250.0f, 640.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
+        _gameData.ants.add(new Antenna(250.0f, 620.0f, 1050.0f, Antenna.AntennaType.TRANSMISSION ));
+
+        _gameView.setMap(_gameData); // need to call after layout is created
     }
 
     public void postInfo(String text) {

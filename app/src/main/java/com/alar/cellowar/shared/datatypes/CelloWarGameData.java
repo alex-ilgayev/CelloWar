@@ -113,15 +113,16 @@ public class CelloWarGameData implements Serializable{
                             // a needs to be in b's halo or vice versa
                             // this can be changed later
                             if (a.isInsideHalo(b._x, b._y) || b.isInsideHalo(a._x, a._y)) {
-                                a.routing.routed_bases_bottom.addAll(b.routing.routed_bases_top);
-                                a.routing.routed_bases_bottom.addAll(b.routing.routed_bases_top);
+                                a.routing.routed_bases_top.addAll(b.routing.routed_bases_top);
+                                b.routing.routed_bases_top.addAll(a.routing.routed_bases_top);
                                 a.routing.routed_bases_bottom.addAll(b.routing.routed_bases_bottom);
-                                a.routing.routed_bases_bottom.addAll(b.routing.routed_bases_bottom);
+                                b.routing.routed_bases_bottom.addAll(a.routing.routed_bases_bottom);
                             }
                         }
                     }
                 }
             }
         }
+
     }
 }
