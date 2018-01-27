@@ -181,7 +181,9 @@ public class CelloWarActivity extends BaseActivity {
                                 postInfo(getString(R.string.info_finish));
                                 _pbWaiting.setVisibility(View.INVISIBLE);
                             }
+                            _btnFinishMove.setVisibility(View.INVISIBLE);
                             _gameData = data;
+                            _gameView.setMap(data);
                             break;
                     }
 

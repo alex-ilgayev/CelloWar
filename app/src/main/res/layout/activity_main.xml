@@ -7,6 +7,14 @@
     android:background="@drawable/bg"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:text="CelloWar"
+        android:textSize="60sp"
+        android:gravity="center"
+        />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
