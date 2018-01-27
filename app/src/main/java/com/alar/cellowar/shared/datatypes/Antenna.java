@@ -21,17 +21,22 @@ public class Antenna implements Serializable{
         ELECTONIC_WARFARE
     }
 
+    /**
+     * Contains structures used for winner calculations
+     */
     public class AntennaRouting implements Serializable{
         private static final long serialVersionUID = 1L;
 
         public HashSet<Antenna> routed_antennas;
         public HashSet<Integer> routed_bases_top;
         public HashSet<Integer> routed_bases_bottom;
+        public boolean isSpoofed;
 
         AntennaRouting() {
             routed_antennas = new HashSet<Antenna>();
             routed_bases_bottom = new HashSet<Integer>();
             routed_bases_top = new HashSet<Integer>();
+            isSpoofed = false;
         }
     }
 

@@ -32,13 +32,19 @@ public class CelloWarGameData implements Serializable{
     }
 
     // TODO: EW
+
     public void CalcRouting(float width, float height) {
         // First clear
         for (Antenna a : ants) {
             a.routing.routed_antennas.clear();
             a.routing.routed_bases_top.clear();
             a.routing.routed_bases_bottom.clear();
+            a.routing.isSpoofed = false;
         }
+
+        // Calculate spoofing by EW antennas. Spoofed antennas can not participate in
+        // the transmission
+        CalcSpoofing();
 
         // Blue base - top left, bottom right
         CalcSingleBaseRouting( true, 0.0f, width/2.0f, height, 1);
@@ -46,6 +52,20 @@ public class CelloWarGameData implements Serializable{
         // red base
         CalcSingleBaseRouting( true, width/2.0f, width, height,2);
         CalcSingleBaseRouting( false, 0.0f, width/2.0f, height, 2);
+    }
+
+    public void CalcSpoofing() {
+        for(Antenna a : ants) {
+            if (a._type == Antenna.AntennaType.TRANSMISSION) {
+                for(Antenna b : ants) {
+                    if (b._type == Antenna.AntennaType.ELECTONIC_WARFARE) {
+                        if (b.isInsideHalo(a._x, a._y)) {
+                            a.routing.isSpoofed = true;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void CalcSingleBaseRouting(boolean is_top, float left, float right, float height, int base_id){

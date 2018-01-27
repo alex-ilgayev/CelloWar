@@ -140,15 +140,20 @@ class GameView extends View {
 
             if (a._type == Antenna.AntennaType.TRANSMISSION) {
 
-               boolean blue_route =
+                boolean blue_route =
                         a.routing.routed_bases_top.contains(1) ||
-                        a.routing.routed_bases_bottom.contains(1);
+                                a.routing.routed_bases_bottom.contains(1);
 
                 boolean red_route =
                         a.routing.routed_bases_top.contains(2) ||
-                        a.routing.routed_bases_bottom.contains(2);
+                                a.routing.routed_bases_bottom.contains(2);
 
-                if(blue_route && red_route) {
+                if (a.routing.isSpoofed) {
+
+                    p.setColor(Color.DKGRAY);
+                    antennaIcon.setColorFilter( Color.DKGRAY, PorterDuff.Mode.MULTIPLY );
+
+                } else if(blue_route && red_route) {
                     p.setColor(Color.rgb(150, 0, 150));
                     antennaIcon.setColorFilter(Color.rgb(150, 0, 150), PorterDuff.Mode.MULTIPLY);
                 } else if (blue_route) {
