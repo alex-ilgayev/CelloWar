@@ -305,10 +305,11 @@ class GameView extends View {
                     antColorMult = getResources().getColor(R.color.color_ant_default);
                 }
 
-                if (a.routing.isSpoofed == false && a.routing.routed_goal) {
-                    antColorMult = pGoal.getColor();
+                //TODO wihtout coloring when touching the goal
+//                if (a.routing.isSpoofed == false && a.routing.routed_goal) {
+//                    antColorMult = pGoal.getColor();
                     //antColorMult = 0xffff00;
-                }
+//                }
 
                 antennaIcon.setColorFilter( antColorMult, PorterDuff.Mode.MULTIPLY );
                 antennaIcon.draw(canvas);
