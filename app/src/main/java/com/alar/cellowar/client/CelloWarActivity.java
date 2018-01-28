@@ -77,6 +77,8 @@ public class CelloWarActivity extends BaseActivity {
         _pbWaiting = findViewById(R.id.pbWaiting);
         _gameView = findViewById(R.id.vGameView);
 
+        _tvGameInfo.setTypeface(Settings.getInstance().getFont());
+
         _btnFinishMove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
