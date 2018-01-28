@@ -8,30 +8,79 @@
     <color name="colorPrimaryDark">#fc5403</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="dark_gray">#383838</color>
+    <color name="light_gray">#c4c4c4</color>
+
+
+    <!--palette-->
+    <color name="green1">#5d6745</color>
+    <color name="green2">#888c53</color>
+    <color name="green3">#262e1f</color>
+    <color name="blue1">#7989ad</color>
+    <color name="blue2">#9aaace</color>
+    <color name="blue3">#c8d0e3</color>
+    <color name="blue4">#293142</color>
+    <color name="blue5">#313846</color>
+    <color name="gray1">#e0e0e0</color>
+    <color name="black1">#0d0d0d</color>
+
+    <!--MAIN MENU-->
+    <color name="color_main_background">#5d6745</color>
+    <color name="color_fab">#293142</color>
+    <color name="color_users_connected_border">#516dab</color>
+    <color name="color_users_connected_fill_dark">#7989ad</color>
+    <color name="color_users_connected_fill_light">#7989ad</color>
+
+
+    <!--GAME-->
+    <color name="color_game_background">#9aaace</color>
+
+    <color name="color_friendly_base">#36367e</color>
+    <color name="color_enemy_base">#5e2e2e</color>
+
+    <color name="color_ant_halo_default">#323359ac</color>
+    <color name="color_ant_halo_enemy">#32ff4646</color>
+    <color name="color_ant_halo_friendly">#320000e6</color>
+    <color name="color_ant_halo_both">#32900090</color>
+    <color name="color_ant_halo_spoofed">#063359ac</color>
+
+    <color name="color_anti_halo">#93600001</color>
+    <color name="color_anti_halo_stroke">#3e0000</color>
+
+    <color name="color_obstacle">@color/blue4</color>
+
+    <color name="color_goal">#e7e7e7</color>
+
+    <color name="color_ant_default">#e7e7e7</color>
+    <color name="color_ant_enemy">#fd8585</color>
+    <color name="color_ant_friendly">#4848ff</color>
+    <color name="color_ant_both">#7e3d7e</color>
+    <color name="color_ant_spoofed">#e7e7e7</color>
+
     <color name="orange_light">#f68141</color>
     <color name="orange_dark">#fc5403</color>
     <color name="orange_ripple">#f68141</color>
 
-    <color name="yellow_light">#FFB805</color>
-    <color name="yellow_dark">#F2AB00</color>
-    <color name="yellow_ripple">#D99200</color>
+    <!--<color name="yellow_light">#FFB805</color>-->
+    <!--<color name="yellow_dark">#F2AB00</color>-->
+    <!--<color name="yellow_ripple">#D99200</color>-->
 
-    <color name="green_light">#43A047</color>
-    <color name="green_dark">#2E7D32</color>
-    <color name="green_ripple">#1B5E20</color>
+    <!--<color name="green_light">#43A047</color>-->
+    <!--<color name="green_dark">#2E7D32</color>-->
+    <!--<color name="green_ripple">#1B5E20</color>-->
 
-    <color name="blue_light">#1565C0</color>
-    <color name="blue_dark">#2272CD</color>
-    <color name="blue_ripple">#62B2FF</color>
+    <!--<color name="blue_light">#1565C0</color>-->
+    <!--<color name="blue_dark">#2272CD</color>-->
+    <!--<color name="blue_ripple">#62B2FF</color>-->
 
-    <color name="red_light">#F50057</color>
-    <color name="red_dark">#E8004A</color>
-    <color name="red_ripple">#C20024</color>
+    <!--<color name="red_light">#F50057</color>-->
+    <!--<color name="red_dark">#E8004A</color>-->
+    <!--<color name="red_ripple">#C20024</color>-->
 
-    <color name="normal">#000</color>
-    <color name="wrong">#F00</color>
-    <color name="right">#0F0</color>
-    <color name="block_text_normal">#000000</color>
-    <color name="gridlist_divider">#BBB</color>
-    <color name="block_bg">#939393</color>
+    <!--<color name="normal">#000</color>-->
+    <!--<color name="wrong">#F00</color>-->
+    <!--<color name="right">#0F0</color>-->
+    <!--<color name="block_text_normal">#000000</color>-->
+    <!--<color name="gridlist_divider">#BBB</color>-->
+    <!--<color name="block_bg">#939393</color>-->
 </resources>

@@ -2,16 +2,13 @@ package com.alar.cellowar.client;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
-import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,9 +18,7 @@ import com.alar.cellowar.shared.datatypes.Antenna;
 import com.alar.cellowar.shared.datatypes.CelloWarGameData;
 import com.alar.cellowar.shared.datatypes.Obstacle;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -46,7 +41,7 @@ class GameView extends View {
     BitmapShader bmpShader;
     Bitmap patternBMP;
     Drawable antennaIcon = getResources().getDrawable(R.drawable.ant);
-    Drawable ewIcon = getResources().getDrawable(R.drawable.oie_transparent);
+    Drawable ewIcon = getResources().getDrawable(R.drawable.anti);
     Drawable goalIcon = getResources().getDrawable(R.drawable.star);
 
     Paint pObst;
@@ -95,24 +90,24 @@ class GameView extends View {
     private void setupPaint() {
         pObst = new Paint();
         pObst.setStyle(Paint.Style.FILL);
-        pObst.setColor(Color.rgb(40,60,40));
+        pObst.setColor(getResources().getColor(R.color.color_obstacle));
 
         pAntNeutralHalo = new Paint();
         pAntNeutralHalo.setStyle(Paint.Style.FILL);
-        pAntNeutralHalo.setColor(Color.LTGRAY);
-        pAntNeutralHalo.setAlpha(50);
+        pAntNeutralHalo.setColor(getResources().getColor(R.color.color_ant_halo_default ));
+//        pAntNeutralHalo.setAlpha(50);
 
 
         pAntRedHalo = new Paint();
         pAntRedHalo.setStyle(Paint.Style.FILL);
-        pAntRedHalo.setColor(Color.RED);
-        pAntRedHalo.setAlpha(50);
+        pAntRedHalo.setColor(getResources().getColor(R.color.color_ant_halo_enemy));
+//        pAntRedHalo.setAlpha(50);
 
 
         pAntBlueHalo = new Paint();
         pAntBlueHalo.setStyle(Paint.Style.FILL);
-        pAntBlueHalo.setColor(Color.BLUE);
-        pAntBlueHalo.setAlpha(50);
+        pAntBlueHalo.setColor(getResources().getColor(R.color.color_ant_halo_friendly));
+//        pAntBlueHalo.setAlpha(50);
 
 
         // Do not use the shader paint - too slow
@@ -121,40 +116,40 @@ class GameView extends View {
         //        Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
         pAndBothHalo = new Paint();
         pAndBothHalo.setStyle(Paint.Style.FILL);
-        pAndBothHalo.setColor(Color.rgb(150, 0, 150));
-        pAndBothHalo.setAlpha(50);
+        pAndBothHalo.setColor(getResources().getColor(R.color.color_ant_halo_both));
+//        pAndBothHalo.setAlpha(50);
         //pAndBothHalo.setColor(0xffffff);
         //pAndBothHalo.setShader(bmpShader);
 
         pAntSpoofedHalo = new Paint();
         pAntSpoofedHalo.setStyle(Paint.Style.FILL);
-        pAntSpoofedHalo.setColor(Color.DKGRAY);
-        pAntSpoofedHalo.setAlpha(50);
+        pAntSpoofedHalo.setColor(getResources().getColor(R.color.color_ant_halo_spoofed));
+//        pAntSpoofedHalo.setAlpha(50);
 
 
         pAntElecWarHaloPart1 = new Paint();
         pAntElecWarHaloPart1.setStyle(Paint.Style.FILL);
-        pAntElecWarHaloPart1.setColor(Color.DKGRAY);
-        pAntElecWarHaloPart1.setAlpha(40);
+        pAntElecWarHaloPart1.setColor(getResources().getColor(R.color.color_anti_halo));
+//        pAntElecWarHaloPart1.setAlpha(40);
 
         //PorterDuff.Mode mode = PorterDuff.Mode.DST_OUT;
         //p.setXfermode(new PorterDuffXfermode((mode)));
 
         pAntElecWarHaloPart2 = new Paint();
         pAntElecWarHaloPart2.setStyle(Paint.Style.STROKE);
-        pAntElecWarHaloPart2.setColor(Color.WHITE);
+        pAntElecWarHaloPart2.setColor(getResources().getColor(R.color.color_anti_halo_stroke));
 
         pBaseRed = new Paint();
         pBaseRed.setStyle(Paint.Style.FILL);
-        pBaseRed.setColor(Color.RED);
+        pBaseRed.setColor(getResources().getColor(R.color.color_enemy_base));
 
         pBaseBlue = new Paint();
         pBaseBlue.setStyle(Paint.Style.FILL);
-        pBaseBlue.setColor(Color.BLUE);
+        pBaseBlue.setColor(getResources().getColor(R.color.color_friendly_base));
 
         pGoal = new Paint();
         pGoal.setStyle((Paint.Style.FILL));
-        pGoal.setColor(Color.rgb(255,255,40));
+        pGoal.setColor(getResources().getColor(R.color.color_goal));
 
     }
 
@@ -205,7 +200,7 @@ class GameView extends View {
     }
 
     protected void onDraw(Canvas canvas) {
-        canvas.drawRGB(60, 80, 60);
+        canvas.drawColor(getResources().getColor(R.color.color_game_background));
 
         // Draw Bases
         //
@@ -290,24 +285,24 @@ class GameView extends View {
 
                 if (a.routing.isSpoofed) {
                     selectedAntPaint = pAntSpoofedHalo;
-                    antColorMult = Color.DKGRAY;
+                    antColorMult = getResources().getColor(R.color.color_ant_spoofed);
                     //antennaIcon.setColorFilter( Color.DKGRAY, PorterDuff.Mode.MULTIPLY );
                 } else if(blue_route && red_route) {
                     selectedAntPaint = pAndBothHalo;
-                    antColorMult = Color.rgb(150, 0, 150);
+                    antColorMult = getResources().getColor(R.color.color_ant_both);
                     //antennaIcon.setColorFilter(Color.rgb(150, 0, 150), PorterDuff.Mode.MULTIPLY);
                 } else if (blue_route) {
 
                     selectedAntPaint = pAntBlueHalo;
-                    antColorMult = Color.BLUE;
+                    antColorMult = getResources().getColor(R.color.color_ant_friendly);
                     //antennaIcon.setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
                 } else if (red_route ) {
                     selectedAntPaint = pAntRedHalo;
-                    antColorMult = Color.RED;
+                    antColorMult = getResources().getColor(R.color.color_ant_enemy);
                     //.setColorFilter( Color.RED, PorterDuff.Mode.MULTIPLY );
                 } else {
                     selectedAntPaint = pAntNeutralHalo;
-                    antColorMult = Color.WHITE;
+                    antColorMult = getResources().getColor(R.color.color_ant_default);
                 }
 
                 if (a.routing.isSpoofed == false && a.routing.routed_goal) {
@@ -327,21 +322,6 @@ class GameView extends View {
                 canvas.drawCircle(a._x + this_dx, a._y + this_dy, a._radius, pAntElecWarHaloPart2);
             }
         }
-
-        // TODO: Debug removeme
-        /*Paint debugp = new Paint();
-        debugp.setColor(Color.YELLOW);
-        debugp.setTextSize(120.0f);
-        Set<Integer> bases = DetermineInterconnectedBases();
-        if (bases.size() == 0) {
-            canvas.drawText("NONE", 200, 200, debugp);
-        } else if (bases.size() >= 2) {
-            canvas.drawText("BOTH", 200, 200, debugp);
-        } else if (bases.contains(1)) {
-            canvas.drawText("PLAYER 1", 200, 200, debugp);
-        } else if (bases.contains(2)) {
-            canvas.drawText("PLAYER 2", 200, 200, debugp);
-        }*/
         invalidate();
     }
 

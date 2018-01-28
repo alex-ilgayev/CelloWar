@@ -5,6 +5,6 @@
         android:topRightRadius="30dp"
         android:bottomLeftRadius="00dp"
         android:bottomRightRadius="00dp" />
-    <solid android:color="#f6aa31" />
-    <stroke android:width="2dip" android:color="#f6aa25"/>
+    <solid android:color="@color/color_users_connected_border" />
+    <stroke android:width="2dip" android:color="@color/color_users_connected_border"/>
 </shape>

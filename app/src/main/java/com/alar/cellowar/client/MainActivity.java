@@ -30,6 +30,8 @@ import com.github.clans.fab.FloatingActionButton;
 import java.util.LinkedList;
 import java.util.UUID;
 
+import mehdi.sakout.fancybuttons.FancyButton;
+
 /**
  * Created by alexi on 1/26/2018.
  */
@@ -38,12 +40,13 @@ public class MainActivity  extends BaseActivity{
     private final String SUDOKU_TITLE = "Sudoku";
     private final String CROSSWORD_TITLE = "Crossword";
 
-    private FloatingActionButton _fabSearch;
-    private Button _btnJoinPool;
+    private FancyButton _fabSearch;
 
     private TextView _tvUsers = null;
     private ListView _lvUsers = null;
     private TextView _tvUsersOnlineTitle = null;
+    private TextView _tvJoinPool = null;
+    private TextView _tvMainTitle = null;
     private LinkedList<Client> _usersToJoin = new LinkedList<>();
     private ClientsPlayingAdapter _adapter = null;
     private UUID _waitingForClientSearchResponse = null;
@@ -67,21 +70,25 @@ public class MainActivity  extends BaseActivity{
         Typeface fontBold = Typeface.createFromAsset(getAssets(),"fonts/seguisb.ttf");
         Settings.getInstance().setFonts(font, fontBold);
 
-        _tvUsersOnlineTitle = (TextView) findViewById(R.id.tvUsersOnlineTitle);
-        _tvUsersOnlineTitle.setTypeface(Settings.getInstance().getFont());
+        _tvUsersOnlineTitle = findViewById(R.id.tvUsersOnlineTitle);
+        _fabSearch = findViewById(R.id.fabSearch);
+        _tvUsers = findViewById(R.id.tvUsers);
+        _lvUsers = findViewById(R.id.lvUsers);
+        _tvJoinPool = findViewById(R.id.tvJoinPool);
+        _tvMainTitle = findViewById(R.id.tvMainTitle);
 
-        _tvUsers = (TextView) findViewById(R.id.tvUsers);
         _tvUsers.setTypeface(Settings.getInstance().getFont());
+        _tvUsersOnlineTitle.setTypeface(Settings.getInstance().getFont());
+        _tvJoinPool.setTypeface(Settings.getInstance().getFontBold());
+        _fabSearch.setCustomTextFont("fonts/segoeuisl.ttf");
+        _tvMainTitle.setTypeface(Settings.getInstance().getFont());
 
-        _lvUsers = (ListView) findViewById(R.id.lvUsers);
         _adapter = new ClientsPlayingAdapter(this, _usersToJoin);
         _lvUsers.setAdapter(_adapter);
         _client.setCurrSessionId(null);
 
-        _fabSearch = (FloatingActionButton) findViewById(R.id.fabSearch);
-        _btnJoinPool = (Button) findViewById(R.id.btnJoinPool);
 
-        _btnJoinPool.setOnClickListener(new View.OnClickListener() {
+        _fabSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setLoadingFab(true);
@@ -106,11 +113,11 @@ public class MainActivity  extends BaseActivity{
 
     public void setLoadingFab(boolean isLoading) {
         if(isLoading) {
-            _fabSearch.setShowProgressBackground(true);
-            _fabSearch.setIndeterminate(true);
+//            _fabSearch.setShowProgressBackground(true);
+//            _fabSearch.setIndeterminate(true);
         } else {
-            _fabSearch.setShowProgressBackground(false);
-            _fabSearch.setIndeterminate(false);
+//            _fabSearch.setShowProgressBackground(false);
+//            _fabSearch.setIndeterminate(false);
         }
     }
 
