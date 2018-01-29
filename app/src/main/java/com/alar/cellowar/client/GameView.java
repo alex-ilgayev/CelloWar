@@ -159,7 +159,7 @@ class GameView extends View {
         /***
          * ARTIUMS DEBUG DATA
          */
-         m.ants.clear();
+         /*m.ants.clear();
          m.obst.clear();
 
          m.UpdateViewSize(100.0f, 100.0f);
@@ -183,7 +183,7 @@ class GameView extends View {
        m.ants.add(new Antenna(15.0f, 25.0f, 10.0f, Antenna.AntennaType.TRANSMISSION ));
        m.ants.add(new Antenna(15.0f, 10.0f, 15.0f, Antenna.AntennaType.TRANSMISSION ));
        m.ants.add(new Antenna(10.0f, 10.0f, 20.0f, Antenna.AntennaType.ELECTONIC_WARFARE ));
-       m.ants.add(new Antenna(10.0f, 10.0f, 25.0f, Antenna.AntennaType.ELECTONIC_WARFARE ));
+       m.ants.add(new Antenna(10.0f, 10.0f, 25.0f, Antenna.AntennaType.ELECTONIC_WARFARE ));*/
 
         _m = m;
 
