@@ -189,7 +189,7 @@ public class MainActivity  extends BaseActivity{
                     break;
                 case RESPONSE_SESSION:
                     //TODO: find solution to packets which we are not ready for them.
-//                    if(message.getId() == null ||
+//                    if(message.getId() == n   ull ||
 //                            (!message.getId().equals(_waitingForNewGameResponse) &&
 //                                    !message.getId().equals(_waitingForJoinGameResponse) &&
 //                                    !message.getId().equals(_waitingForJoinPoolResponse)))

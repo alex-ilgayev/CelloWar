@@ -66,6 +66,10 @@ public class Session implements Serializable{
         this._isSearching = isSearching;
     }
 
+    public void setGameData(CelloWarGameData gameData) {
+        this._gameData = gameData;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

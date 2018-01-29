@@ -35,6 +35,14 @@ public class CelloWarGameData implements Serializable{
         viewH = 1500.0f;
     }
 
+    public float getWidth() {
+        return this.viewW;
+    }
+
+    public float getHeight() {
+        return this.viewH;
+    }
+
     public void setWH(float w, float h) {
         viewW = w;
         viewH = h;
