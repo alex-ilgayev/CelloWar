@@ -12,7 +12,7 @@
 
     <string name="info_place_ant">Position your antennas</string>
     <string name="info_wait">Wait for you opponent</string>
-    <string name="info_finish1">המשחק הסתיים, המנצח הוא ף אחד </string>
+    <string name="info_finish1">המשחק הסתיים, המנצח הוא אף אחד </string>
     <string name="info_finish2">המשחק הסתיים, המנצח הוא שניכם </string>
     <string name="info_finish3">המשחק הסתיים, המנצח הוא כחול </string>
     <string name="info_finish4">המשחק הסתיים, המנצח הוא אדום </string>
