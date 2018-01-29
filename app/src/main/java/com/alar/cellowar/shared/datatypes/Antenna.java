@@ -12,13 +12,18 @@ import java.util.HashSet;
 public class Antenna implements Serializable{
     private static final long serialVersionUID = 1L;
 
+    // Please assume 1080*1500 dimensions
+    // This will be recalculated by CelloWarGameData.UpdateViewSize
+    // It might be better to refactor to external class.
     static float ANT_W = 110.0f;
     static float ANT_H = 150.0f;
-    static float ANT_BASE_H = ANT_H / 4;
+    //static float ANT_BASE_H = ANT_H / 4;
+    static float ANT_BASE_H = ANT_H;
 
     static float ANT_EW_W = 130.0f;
     static float ANT_EW_H = 130.0f;
-    static float ANT_EW_BASE_H = ANT_EW_H / 4;
+    //static float ANT_EW_BASE_H = ANT_EW_H / 4;
+    static float ANT_EW_BASE_H = ANT_EW_H;
 
     public enum AntennaType {
         TRANSMISSION,

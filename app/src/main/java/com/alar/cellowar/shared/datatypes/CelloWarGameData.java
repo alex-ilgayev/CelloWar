@@ -19,20 +19,18 @@ public class CelloWarGameData implements Serializable{
 
     public static float BASE_H = 50.00f;
     public static float GOAL_RADIUS = 50.0f;
+    private  float viewW = 1080.0f; // Update only via UpdateViewSize!
+    private float viewH= 1500.0f;
 
     public List<Antenna> ants;
     public List<Obstacle> obst;
 
-    public State state;
-    private float viewW;
-    private float viewH;
+    public State state = State.ANT_PLACEMENT;
+
 
     public CelloWarGameData() {
         ants = new ArrayList<Antenna>();
         obst = new ArrayList<Obstacle>();
-        state = State.ANT_PLACEMENT;
-        viewW = 1080.0f;
-        viewH = 1500.0f;
     }
 
     public float getWidth() {
@@ -41,11 +39,6 @@ public class CelloWarGameData implements Serializable{
 
     public float getHeight() {
         return this.viewH;
-    }
-
-    public void setWH(float w, float h) {
-        viewW = w;
-        viewH = h;
     }
 
     private float fixX(float x, float newW) {
@@ -57,7 +50,7 @@ public class CelloWarGameData implements Serializable{
     }
 
     public void UpdateViewSize(float newW, float newH) {
-        /*for(Obstacle o : obst) {
+        for(Obstacle o : obst) {
             o._bottom = fixY(o._bottom, newH);
             o._left = fixX(o._left, newW);
             o._top = fixY(o._top,newH);
@@ -83,7 +76,7 @@ public class CelloWarGameData implements Serializable{
         GOAL_RADIUS = fixX(GOAL_RADIUS, newW); // IMPORTANT - Radius is fixed according to width.
 
         viewH = newH;
-        viewW = newW;*/
+        viewW = newW;
 
         CalcRouting(newW, newH); // Recalculate routing
     }
@@ -103,10 +96,11 @@ public class CelloWarGameData implements Serializable{
         // the transmission
         CalcSpoofing();
 
-        // Blue base - top left, bottom right
+
+        // Blue bases - top left, bottom right
         CalcSingleBaseRouting( true, 0.0f, width/2.0f, height, 1);
         CalcSingleBaseRouting( false, width/2.0f, width, height, 1);
-        // red base
+        // Red bases
         CalcSingleBaseRouting( true, width/2.0f, width, height,2);
         CalcSingleBaseRouting( false, 0.0f, width/2.0f, height, 2);
 
@@ -117,6 +111,9 @@ public class CelloWarGameData implements Serializable{
 
     }
 
+    /**
+     * For each antenna, update the routing.isSpoofed value
+     */
     private void CalcSpoofing() {
         for(Antenna a : ants) {
             if (a._type == Antenna.AntennaType.TRANSMISSION) {
@@ -131,6 +128,14 @@ public class CelloWarGameData implements Serializable{
         }
     }
 
+
+    /**
+     * For each antenna, if it is covering the goal, set routing.routed_goal
+     * This is not transitive, only antennas covering the goal will
+     * have routing.routed_goal.
+     * @param goal_x
+     * @param goal_y
+     */
     private void CalcGoalRouting(float goal_x, float goal_y) {
         for (Antenna a : ants) {
             // Ignore spoofed antennas
@@ -175,7 +180,7 @@ public class CelloWarGameData implements Serializable{
     }
 
     /**
-     * Highly inefficient approximately O(N**4). Use with up to 20 antennas
+     * Highly inefficient approximately O(N**4). Use with 20 antennas max.
      */
     public void CalcTransitiveRouting() {
         // Number of steps == number of nodes

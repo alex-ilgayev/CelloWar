@@ -154,9 +154,39 @@ class GameView extends View {
     }
 
     public void setMap(CelloWarGameData m) {
+
+
+        /***
+         * ARTIUMS DEBUG DATA
+         */
+         m.ants.clear();
+         m.obst.clear();
+
+         m.UpdateViewSize(100.0f, 100.0f);
+
+         m.obst.add(new Obstacle(20.0f, 20.0f, 30.0f, 30.0f));
+         m.obst.add(new Obstacle(70.0f, 70.0f, 80.0f, 80.0f));
+         m.obst.add(new Obstacle(70.0f, 20.0f, 80.0f, 30.0f));
+         m.obst.add(new Obstacle(20.0f, 70.0f, 30.0f, 80.0f));
+
+         m.obst.add(new Obstacle(25.0f, 45.0f, 35.0f, 55.0f));
+         m.obst.add(new Obstacle(65.0f, 45.0f, 75.0f, 55.0f));
+
+        m.obst.add(new Obstacle(90.0f, 90.0f, 100.0f, 100.0f));
+
+        m.obst.add(new Obstacle(0.0f, 90.0f, 10.0f, 100.0f));
+        m.obst.add(new Obstacle(90.0f, 0.0f, 100.0f, 10.0f));
+
+       m.ants.add(new Antenna(30.0f, 10.0f, 10.0f, Antenna.AntennaType.TRANSMISSION ));
+       m.ants.add(new Antenna(15.0f, 15.0f, 10.0f, Antenna.AntennaType.TRANSMISSION ));
+       m.ants.add(new Antenna(15.0f, 20.0f, 10.0f, Antenna.AntennaType.TRANSMISSION ));
+       m.ants.add(new Antenna(15.0f, 25.0f, 10.0f, Antenna.AntennaType.TRANSMISSION ));
+       m.ants.add(new Antenna(15.0f, 10.0f, 15.0f, Antenna.AntennaType.TRANSMISSION ));
+       m.ants.add(new Antenna(10.0f, 10.0f, 20.0f, Antenna.AntennaType.ELECTONIC_WARFARE ));
+       m.ants.add(new Antenna(10.0f, 10.0f, 25.0f, Antenna.AntennaType.ELECTONIC_WARFARE ));
+
         _m = m;
 
-        // If W/H not set yet, just accept the map
         if(getWidth() != 0.0f && getHeight() != 0.0f) {
             _m.UpdateViewSize(this.getWidth(), getHeight());
         }
