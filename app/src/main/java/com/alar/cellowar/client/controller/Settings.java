@@ -21,7 +21,7 @@ public class Settings {
 //    public static final String ROOT_URL = "http://10.25.104.152:8080/";
 //    public static final String ROOT_URL = "http://192.168.1.3:8080/";
 //    public static final String ROOT_URL = "http://10.0.2.2:8080/";
-    public static final String ROOT_URL = "http://default-environment.y2ruc2btia.eu-central-1.elasticbeanstalk.com/ ";
+    public static final String ROOT_URL = "http://cellowar.herokuapp.com/";
 //    public static final String ROOT_URL = "http://cellawar-env.eu-central-1.elasticbeanstalk.com/";
 
     public static final int POLL_TIMESTAMP = 1000;
