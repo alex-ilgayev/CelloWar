@@ -1,5 +1,7 @@
 package com.alar.cellowar.client.controller;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
 import com.alar.cellowar.shared.datatypes.Client;
@@ -7,6 +9,10 @@ import com.alar.cellowar.shared.datatypes.ConnectionStatus;
 
 import java.util.Random;
 import java.util.UUID;
+
+import com.google.gson.*;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Alex on 4/29/2015.
@@ -28,6 +34,9 @@ public class Settings {
     public static final int DISCONNECTION_TIMESTAMP = 3000;
     public static final int KEYBOARD_OVERLAY_OFFSET = 90;
 
+    private static final String PREFS_NAME = "com.alar.CelloWar";
+    private static final String PREFS_TAG_CLIENT = "Client";
+
     private Client _client = null;
     // this UUID will be send as poll message id,
     // and activities will check this id for valid response session.
@@ -36,11 +45,14 @@ public class Settings {
     private ConnectionStatus _connectivityState = ConnectionStatus.CONNECTION_NOT_TRIED_YET;
     private Typeface _font;
     private Typeface _fontBold;
+    private Context _ctx;
+    private SharedPreferences _prefs;
+
 
     private Settings(){
         Random rand = new Random();
         int randNum = rand.nextInt(1000) + 1;
-        _client = new Client(randNum, "Alex" + (randNum));
+        _client = new Client(randNum, "Random" + (randNum));
         _pollRequestId = UUID.randomUUID();
     }
 
@@ -48,6 +60,16 @@ public class Settings {
         if (_ins == null)
             _ins = new Settings();
         return _ins;
+    }
+
+    // should be called once in MainActivity
+    // once context set trying to load a client.
+    public void setContext(Context ctx) {
+        this._ctx = ctx;
+        _prefs = ctx.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+        if(!loadClientFromPrefs()) // failed
+            storeClientInPrefs();
     }
 
     public Client getThisClient() {
@@ -77,5 +99,41 @@ public class Settings {
 
     public Typeface getFontBold() {
         return _fontBold;
+    }
+
+    public void setClientName(String name) {
+        _client.setName(name);
+        storeClientInPrefs();
+    }
+
+    /**
+     * tries to store client property to shared preferenences.
+     * @return returns true of succeeded, false otherwise
+     */
+    private boolean storeClientInPrefs() {
+        if(_prefs == null)
+            return false;
+        String clientStr = new Gson().toJson(_client);
+        SharedPreferences.Editor e = _prefs.edit();
+        e.putString(PREFS_TAG_CLIENT, clientStr);
+        e.commit();
+        return true;
+    }
+
+    /**
+     * tries to load client property from shared preferenences.
+     * @return returns true of succeeded, false otherwise
+     */
+    private boolean loadClientFromPrefs() {
+        if(_prefs == null)
+            return false;
+        String clientStr = _prefs.getString(PREFS_TAG_CLIENT, null);
+        if(clientStr == null)
+            return false;
+        Client c = new Gson().fromJson(clientStr, Client.class);
+        if(c == null)
+            return false;
+        _client = c;
+        return true;
     }
 }

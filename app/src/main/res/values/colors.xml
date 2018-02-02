@@ -25,11 +25,10 @@
     <color name="black1">#0d0d0d</color>
 
     <!--MAIN MENU-->
-    <color name="color_main_background">#5d6745</color>
-    <color name="color_fab">#293142</color>
+    <color name="color_main_background">#d6d4ff</color>
     <color name="color_users_connected_border">#516dab</color>
     <color name="color_users_connected_fill_dark">#7989ad</color>
-    <color name="color_users_connected_fill_light">#7989ad</color>
+    <color name="color_users_connected_fill_light">#94b6fd</color>
 
 
     <!--GAME-->

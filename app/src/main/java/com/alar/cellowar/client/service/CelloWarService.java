@@ -95,7 +95,6 @@ public class CelloWarService extends Service {
     class pollMessageAsyncTask extends AsyncTask<Void, Object, Exception> {
         private Client _client;
         private MessageRequestPollMessageQueue _pollMsg;
-        private String _payload;
         // checking for connection failure.
         private checkConnectionAsyncTask _task = null;
 
@@ -104,9 +103,6 @@ public class CelloWarService extends Service {
             _pollMsg = new MessageRequestPollMessageQueue();
             _pollMsg.client = client;
             _pollMsg.id = Settings.getInstance().getPollRequestId();
-            _payload = Base64.encodeToString(
-                    MessageCompression.getInstance().compress(_pollMsg),
-                    Base64.NO_WRAP );
         }
 
         // if returns null then was cancelled quietly, if not then returns exception.
@@ -120,7 +116,9 @@ public class CelloWarService extends Service {
 
                     Packet p = new Packet();
                     p.date = System.currentTimeMillis();
-                    p.payload = _payload;
+                    p.payload = Base64.encodeToString(
+                            MessageCompression.getInstance().compress(_pollMsg),
+                            Base64.NO_WRAP );
 
                     // creating new async task, if sending taking too long, sending retrying
                     // message to the activity above.

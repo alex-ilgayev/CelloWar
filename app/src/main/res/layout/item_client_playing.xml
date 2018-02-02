@@ -13,6 +13,7 @@
         android:layout_weight="1"
         android:id="@+id/tvClientName"
         android:layout_gravity="center"
+        android:textColor="#428aff"
         android:textSize="20sp">
     </TextView>
 </LinearLayout>

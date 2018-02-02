@@ -1,14 +1,18 @@
 package com.alar.cellowar.client;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,14 +22,12 @@ import com.alar.cellowar.client.controller.Settings;
 import com.alar.cellowar.shared.datatypes.Client;
 import com.alar.cellowar.shared.datatypes.ConnectionStatus;
 import com.alar.cellowar.shared.datatypes.ICallback;
-import com.alar.cellowar.shared.datatypes.Session;
 import com.alar.cellowar.shared.messaging.IMessage;
 import com.alar.cellowar.shared.messaging.MessageInnerConnectionStatus;
 import com.alar.cellowar.shared.messaging.MessageRequestAvailableClients;
 import com.alar.cellowar.shared.messaging.MessageRequestJoinPool;
 import com.alar.cellowar.shared.messaging.MessageResponseClientList;
 import com.alar.cellowar.shared.messaging.MessageResponseSession;
-import com.github.clans.fab.FloatingActionButton;
 
 import java.util.LinkedList;
 import java.util.UUID;
@@ -47,7 +49,10 @@ public class MainActivity  extends BaseActivity{
     private TextView _tvUsersOnlineTitle = null;
     private TextView _tvJoinPool = null;
     private TextView _tvMainTitle = null;
-    private LinkedList<Client> _usersToJoin = new LinkedList<>();
+    private Button _btnSettings;
+    private Button _btnAbout;
+
+    private LinkedList<Client> _usersConnected = new LinkedList<>();
     private ClientsPlayingAdapter _adapter = null;
     private UUID _waitingForClientSearchResponse = null;
     private UUID _waitingForJoinGameResponse = null;
@@ -69,6 +74,7 @@ public class MainActivity  extends BaseActivity{
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/segoeuisl.ttf");
         Typeface fontBold = Typeface.createFromAsset(getAssets(),"fonts/seguisb.ttf");
         Settings.getInstance().setFonts(font, fontBold);
+        Settings.getInstance().setContext(this);
 
         _tvUsersOnlineTitle = findViewById(R.id.tvUsersOnlineTitle);
         _fabSearch = findViewById(R.id.fabSearch);
@@ -76,6 +82,8 @@ public class MainActivity  extends BaseActivity{
         _lvUsers = findViewById(R.id.lvUsers);
         _tvJoinPool = findViewById(R.id.tvJoinPool);
         _tvMainTitle = findViewById(R.id.tvMainTitle);
+        _btnSettings = findViewById(R.id.btnSettings);
+        _btnAbout = findViewById(R.id.btnAbout);
 
         _tvUsers.setTypeface(Settings.getInstance().getFont());
         _tvUsersOnlineTitle.setTypeface(Settings.getInstance().getFont());
@@ -83,10 +91,9 @@ public class MainActivity  extends BaseActivity{
         _fabSearch.setCustomTextFont("fonts/segoeuisl.ttf");
         _tvMainTitle.setTypeface(Settings.getInstance().getFont());
 
-        _adapter = new ClientsPlayingAdapter(this, _usersToJoin);
+        _adapter = new ClientsPlayingAdapter(this, _usersConnected);
         _lvUsers.setAdapter(_adapter);
         _client.setCurrSessionId(null);
-
 
         _fabSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +108,21 @@ public class MainActivity  extends BaseActivity{
                 msg.client = _client;
                 msg.id = _waitingForJoinPoolResponse;
                 _networkManager.sendMessage(msg);
+            }
+        });
+
+        _btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // prompting the user for his username
+                openSettingsPanelAndUpdateIt();
+            }
+        });
+        _btnAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // showing about dialog
+                openAboutPanel();
             }
         });
     }
@@ -127,7 +149,7 @@ public class MainActivity  extends BaseActivity{
             _networkManager.resetServiceConnection();
         }
 
-        _usersToJoin.clear();
+        _usersConnected.clear();
         _adapter.notifyDataSetChanged();
         _tvUsers.setText(R.string.user_search_searching);
         _waitingForClientSearchResponse = UUID.randomUUID();
@@ -146,7 +168,8 @@ public class MainActivity  extends BaseActivity{
             response = getResources().getString(R.string.user_search_no_users);
         else
             for(Client client: list) {
-                _usersToJoin.add(client);
+                _usersConnected.clear();
+                _usersConnected.add(client);
                 _adapter.notifyDataSetChanged();
             }
         if(!response.equals(getResources().getString(R.string.user_search_no_users)))
@@ -154,6 +177,56 @@ public class MainActivity  extends BaseActivity{
         else if(response.equals(""))
             response = getResources().getString(R.string.user_search_no_users);
         _tvUsers.setText(response);
+    }
+
+    public void openSettingsPanelAndUpdateIt() {
+        LayoutInflater li = LayoutInflater.from(this);
+        View v = li.inflate(R.layout.item_settings, null);
+        final Client c = Settings.getInstance().getThisClient();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Set your name:");
+
+        builder.setView(v);
+        final EditText et = v.findViewById(R.id.etName);
+        et.setText(c.getName());
+        et.setSelection(et.getText().length());
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Settings.getInstance().setClientName(et.getText().toString());
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    public void openAboutPanel() {
+        LayoutInflater li = LayoutInflater.from(this);
+        View v = li.inflate(R.layout.item_about, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Credits");
+
+        builder.setView(v);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+
+        builder.show();
     }
 
     public class ClientsPlayingAdapter extends ArrayAdapter<Client> {
@@ -182,18 +255,11 @@ public class MainActivity  extends BaseActivity{
         public void receiveMessage(IMessage message) {
             switch(message.getMessageType()) {
                 case RESPONSE_CLIENT_LIST:
-                    if(message.getId() == null || !message.getId().equals(_waitingForClientSearchResponse))
+                    if(message.getId() == null)
                         break;
                     setUsersList((MessageResponseClientList) message);
-                    setLoadingFab(false);
                     break;
                 case RESPONSE_SESSION:
-                    //TODO: find solution to packets which we are not ready for them.
-//                    if(message.getId() == n   ull ||
-//                            (!message.getId().equals(_waitingForNewGameResponse) &&
-//                                    !message.getId().equals(_waitingForJoinGameResponse) &&
-//                                    !message.getId().equals(_waitingForJoinPoolResponse)))
-//                        break;
                     MessageResponseSession sessionMessage = (MessageResponseSession)message;
                     if(sessionMessage.activeSession.getGameData() != null &&
                             sessionMessage.activeSession.getIsSearching() == false) {
