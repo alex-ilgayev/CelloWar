@@ -42,7 +42,7 @@ class GameView extends View {
     Bitmap patternBMP;
     Drawable antennaIcon = getResources().getDrawable(R.drawable.ant);
     Drawable ewIcon = getResources().getDrawable(R.drawable.anti);
-    Drawable goalIcon = getResources().getDrawable(R.drawable.star);
+    Drawable goalIcon = getResources().getDrawable(R.drawable.flag);
 
     Paint pObst;
     Paint pAntNeutralHalo;
@@ -53,6 +53,7 @@ class GameView extends View {
     Paint pAntElecWarHaloPart1;
     Paint pAntElecWarHaloPart2;
     Paint pGoal;
+    Paint pGoalStroke;
 
     Paint pBaseRed;
     Paint pBaseBlue;
@@ -150,6 +151,10 @@ class GameView extends View {
         pGoal = new Paint();
         pGoal.setStyle((Paint.Style.FILL));
         pGoal.setColor(getResources().getColor(R.color.color_goal));
+
+        pGoalStroke = new Paint();
+        pGoalStroke.setStyle(Paint.Style.STROKE);
+        pGoalStroke.setColor(getResources().getColor(R.color.color_goal_stroke));
 
     }
 
@@ -271,6 +276,7 @@ class GameView extends View {
                 (int)(this.getHeight() / 2 + goal_a / 2));
 
         canvas.drawCircle(this.getWidth() / 2, this.getHeight() / 2, _m.GOAL_RADIUS, pGoal);
+        canvas.drawCircle(this.getWidth() / 2, this.getHeight() / 2, _m.GOAL_RADIUS, pGoalStroke);
         goalIcon.draw(canvas);
 
 
