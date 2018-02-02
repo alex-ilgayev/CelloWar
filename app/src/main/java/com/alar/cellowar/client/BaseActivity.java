@@ -24,7 +24,7 @@ import com.alar.cellowar.shared.messaging.MessageInnerConnectionStatus;
 public class BaseActivity extends Activity{
     protected CelloWarApp _myApp;
     protected NetworkManager _networkManager = null;
-    protected Client _client = Settings.getInstance().getThisClient();
+    protected Client _client;
 
     private Animation _rotateAnim;
     private Animation _zoomInAnim;
@@ -35,6 +35,9 @@ public class BaseActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+
+        Settings.getInstance().setContext(this); // first loading from shared prefs, then putting network.
+        _client = Settings.getInstance().getThisClient();
 
         _myApp = (CelloWarApp) this.getApplicationContext();
 

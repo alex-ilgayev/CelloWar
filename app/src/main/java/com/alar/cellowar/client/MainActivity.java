@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
@@ -28,6 +29,7 @@ import com.alar.cellowar.shared.messaging.MessageRequestAvailableClients;
 import com.alar.cellowar.shared.messaging.MessageRequestJoinPool;
 import com.alar.cellowar.shared.messaging.MessageResponseClientList;
 import com.alar.cellowar.shared.messaging.MessageResponseSession;
+import com.google.gson.Gson;
 
 import java.util.LinkedList;
 import java.util.UUID;
@@ -39,8 +41,6 @@ import mehdi.sakout.fancybuttons.FancyButton;
  */
 
 public class MainActivity  extends BaseActivity{
-    private final String SUDOKU_TITLE = "Sudoku";
-    private final String CROSSWORD_TITLE = "Crossword";
 
     private FancyButton _fabSearch;
 
@@ -55,8 +55,6 @@ public class MainActivity  extends BaseActivity{
     private LinkedList<Client> _usersConnected = new LinkedList<>();
     private ClientsPlayingAdapter _adapter = null;
     private UUID _waitingForClientSearchResponse = null;
-    private UUID _waitingForJoinGameResponse = null;
-    private UUID _waitingForNewGameResponse = null;
     private UUID _waitingForJoinPoolResponse = null;
 
     @Override
@@ -74,7 +72,6 @@ public class MainActivity  extends BaseActivity{
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/segoeuisl.ttf");
         Typeface fontBold = Typeface.createFromAsset(getAssets(),"fonts/seguisb.ttf");
         Settings.getInstance().setFonts(font, fontBold);
-        Settings.getInstance().setContext(this);
 
         _tvUsersOnlineTitle = findViewById(R.id.tvUsersOnlineTitle);
         _fabSearch = findViewById(R.id.fabSearch);
@@ -162,16 +159,19 @@ public class MainActivity  extends BaseActivity{
     public void setUsersList(MessageResponseClientList msg){
 
         Client[] list = msg.clients;
+
         String response = "";
 
         if(list.length == 0)
             response = getResources().getString(R.string.user_search_no_users);
-        else
-            for(Client client: list) {
-                _usersConnected.clear();
+        else {
+            _usersConnected.clear();
+            for (Client client : list) {
                 _usersConnected.add(client);
-                _adapter.notifyDataSetChanged();
+
             }
+            _adapter.notifyDataSetChanged();
+        }
         if(!response.equals(getResources().getString(R.string.user_search_no_users)))
             response = "";
         else if(response.equals(""))

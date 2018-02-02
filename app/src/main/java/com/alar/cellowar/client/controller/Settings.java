@@ -30,12 +30,12 @@ public class Settings {
     public static final String ROOT_URL = "http://cellowar.herokuapp.com/";
 //    public static final String ROOT_URL = "http://cellawar-env.eu-central-1.elasticbeanstalk.com/";
 
+    private final String PREFS_NAME = "com.alar.CelloWar";
+    private final String PREFS_TAG_CLIENT = "Client";
+
     public static final int POLL_TIMESTAMP = 1000;
     public static final int DISCONNECTION_TIMESTAMP = 3000;
     public static final int KEYBOARD_OVERLAY_OFFSET = 90;
-
-    private static final String PREFS_NAME = "com.alar.CelloWar";
-    private static final String PREFS_TAG_CLIENT = "Client";
 
     private Client _client = null;
     // this UUID will be send as poll message id,
