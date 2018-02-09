@@ -6,12 +6,12 @@
     android:background="@color/color_main_background">
 
     <ImageButton
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
         android:id="@+id/btnStatus"
         android:background="@drawable/connected"
         android:onClick="OnClickRetryConnection"/>
